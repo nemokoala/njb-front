@@ -27,7 +27,7 @@ export default function ClientSort() {
   }, [items]);
 
   return (
-    <div className="h-full">
+    <>
       <p className="mt-8 text-4xl font-bold text-black">냉장고를 잘 부탁해</p>
       <div className="mt-6 flex justify-end">
         <select
@@ -43,6 +43,6 @@ export default function ClientSort() {
       <div className="mt-4 flex flex-col gap-4">
         {isLoading ? <div>Loading...</div> : sortedItems.map((item) => <Item key={item.id} item={item} />)}
       </div>
-    </div>
+    </>
   );
 }

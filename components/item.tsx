@@ -1,8 +1,13 @@
+'use client';
+
 import type { Item } from '@/interfaces/item.interface';
 import dayjs from 'dayjs';
 import { Ellipsis } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useBottomSheet } from '@/providers/bottom-modal-provider';
 
 export default function Item({ item }: { item: Item }) {
+  const { showModal } = useBottomSheet();
   const getProgressColor = (progress: number) => {
     if (progress > 50) return 'var(--primary)';
     if (progress > 25) return '#ff8000';
@@ -37,11 +42,11 @@ export default function Item({ item }: { item: Item }) {
         <p className="text-lg font-bold">{item.name}</p>
         <div className="flex justify-between">
           {daysLeft >= 0 ? (
-            <p className="flex flex-col justify-end text-sm" style={{ color: getProgressColor(progress) }}>
+            <p className="text-md flex flex-col justify-end font-bold" style={{ color: getProgressColor(progress) }}>
               {daysLeft}일 남음
             </p>
           ) : (
-            <p className="flex flex-col justify-end text-sm text-red-500">{Math.abs(daysLeft)}일 지남</p>
+            <p className="text-md flex flex-col justify-end font-bold text-red-500">{Math.abs(daysLeft)}일 지남</p>
           )}
           <p className="text-right text-sm leading-[17px] text-gray-500">
             유통기한
@@ -59,17 +64,36 @@ export default function Item({ item }: { item: Item }) {
               />
             ))}
           </div>
-          <div
-            className="animate-grow-width absolute h-2 origin-left rounded-md bg-red-500"
-            style={{
-              width: `${progress}%`,
-              // left: `${100 - progress}%`,
-              backgroundColor: getProgressColor(progress),
-            }}
-          />
+
+          {progress > 0 ? (
+            <motion.div
+              className="absolute h-2 origin-left rounded-md bg-red-500"
+              initial={{ width: '100%' }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.7, ease: 'easeInOut' }}
+              style={{
+                backgroundColor: getProgressColor(progress),
+              }}
+            />
+          ) : (
+            <motion.div
+              className="absolute h-2 w-full rounded-md bg-gray-500"
+              animate={{
+                backgroundColor: ['#ff0000', '#aa0000'],
+              }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                repeatType: 'reverse',
+              }}
+            />
+          )}
         </div>
       </div>
-      <button className="ml-1.5 mr-3.5 flex h-7 w-7 items-center justify-center rounded-full bg-gray-200">
+      <button
+        className="ml-1.5 mr-3.5 flex h-7 w-7 items-center justify-center rounded-full bg-gray-200"
+        onClick={() => showModal(<div onClick={() => alert('hi')}>BottomModal</div>)}
+      >
         <Ellipsis className="h-4 w-4 text-blue-500" />
       </button>
     </div>

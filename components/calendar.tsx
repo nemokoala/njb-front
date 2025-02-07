@@ -8,6 +8,7 @@ import 'dayjs/locale/ko'; // 한국어 로케일
 import { useItems } from '@/queries/query';
 import { useEffect } from 'react';
 import Item from './item';
+import { AnimatePresence, motion } from 'framer-motion';
 dayjs.locale('ko'); // 전역 한국어 설정
 
 export function Calendars() {
@@ -46,29 +47,29 @@ export function Calendars() {
     const elements = [];
     if (view === 'month' && createdItemsMonth && createdItemsMonth.length > 0) {
       elements.push(
-        <div key="created" className="w-full rounded-md bg-green-500 text-white">
-          {createdItemsMonth.length}개
+        <div key="created" className="w-full rounded-full border border-white bg-green-500 text-white">
+          {createdItemsMonth.length}
         </div>,
       );
     }
     if (view === 'month' && expiredItemsMonth && expiredItemsMonth.length > 0) {
       elements.push(
-        <div key="expired" className="w-full rounded-md bg-red-500 text-white">
-          {expiredItemsMonth.length}개
+        <div key="expired" className="w-full rounded-full bg-red-500 text-white">
+          {expiredItemsMonth.length}
         </div>,
       );
     }
     if (view === 'year' && createdItemsYear && createdItemsYear.length > 0) {
       elements.push(
         <div key="created-year" className="w-full rounded-md bg-green-500 text-white">
-          {createdItemsYear.length}개
+          {createdItemsYear.length}
         </div>,
       );
     }
     if (view === 'year' && expiredItemsYear && expiredItemsYear.length > 0) {
       elements.push(
         <div key="expired-year" className="w-full rounded-md bg-red-500 text-white">
-          {expiredItemsYear.length}개
+          {expiredItemsYear.length}
         </div>,
       );
     }
@@ -77,8 +78,9 @@ export function Calendars() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-4">
       {selectedDate && dayjs(selectedDate as Date).format('YYYY년 MM월 DD일')}
+      {/* <div className="my-2"> */}
       <Calendar
         locale="ko-KR"
         value={selectedDate}
@@ -89,33 +91,49 @@ export function Calendars() {
         calendarType="gregory"
         tileContent={({ date, view }) => {
           return (
-            <div className="flex w-full flex-col gap-1" key={dayjs(date).format('YYYY-MM-DD')}>
+            <div className="flex w-full gap-0.5" key={dayjs(date).format('YYYY-MM-DD')}>
               {showTitleContent(date, view as 'year' | 'month')}
             </div>
           );
         }}
       />
+      {/* </div> */}
 
-      {selectedDate && addedItems && addedItems.length > 0 && (
-        <>
-          <p className="text-xl font-bold">추가한 항목</p>
-          <div className="flex flex-col gap-2">
-            {addedItems.map((item) => (
-              <Item key={item.id} item={item} />
-            ))}
-          </div>
-        </>
-      )}
-      {selectedDate && expiredItems && expiredItems.length > 0 && (
-        <>
-          <p className="text-xl font-bold">만료된 항목</p>
-          <div className="flex flex-col gap-2">
-            {expiredItems.map((item) => (
-              <Item key={item.id} item={item} />
-            ))}
-          </div>
-        </>
-      )}
+      <AnimatePresence>
+        <motion.div
+          key={dayjs(selectedDate).format('YYYY-MM-DD')}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col gap-6"
+        >
+          {selectedDate && addedItems && addedItems.length > 0 && (
+            <div>
+              <p className="mb-2 text-xl font-bold">추가한 항목</p>
+              <div className="flex flex-col gap-2">
+                {addedItems.map((item) => (
+                  <Item key={item.id} item={item} />
+                ))}
+              </div>
+            </div>
+          )}
+          {selectedDate && expiredItems && expiredItems.length > 0 && (
+            <div>
+              <p className="mb-2 text-xl font-bold">만료된 항목</p>
+              <div className="flex flex-col gap-2">
+                {expiredItems.map((item) => (
+                  <Item key={item.id} item={item} />
+                ))}
+              </div>
+            </div>
+          )}
+          {addedItems && expiredItems && addedItems.length === 0 && expiredItems.length === 0 && (
+            <div className="my-4 flex h-full items-center justify-center">
+              <p className="mb-2 text-xl font-bold text-gray-700">추가한 항목이 없습니다.</p>
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

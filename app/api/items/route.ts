@@ -8,14 +8,14 @@ export async function GET() {
         id: 1,
         name: '가지',
         createdAt: '2025-01-27',
-        expiredAt: '2025-01-29',
+        expiredAt: '2025-02-12',
         imgUrl: 'https://cdn.news.hidoc.co.kr/news/photo/201906/19346_46057_0533.jpg',
       },
       {
         id: 2,
         name: '사과',
         createdAt: '2025-01-29',
-        expiredAt: '2025-02-01',
+        expiredAt: '2025-02-08',
         imgUrl: 'https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/2774556398/B.jpg?890000000',
       },
       {

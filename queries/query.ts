@@ -5,6 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 export const useItems = () => {
   return useQuery<Item[]>({
     queryKey: ['items'],
-    queryFn: () => FetchUtil.get(`api/items`),
+    queryFn: () => FetchUtil.get(`/api/items`),
   });
 };

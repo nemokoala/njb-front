@@ -6,7 +6,7 @@ import type { Item as ItemType } from '@/interfaces/item.interface';
 import { useItems } from '@/queries/query';
 
 export default function ClientSort() {
-  const { data: items, isLoading } = useItems();
+  const { data: items, isLoading, isError } = useItems();
   const [sortBy, setSortBy] = useState<'name' | 'expiredAt' | 'createdAt'>('expiredAt');
   const [sortedItems, setSortedItems] = useState<ItemType[]>([]);
   useEffect(() => {
@@ -41,7 +41,13 @@ export default function ClientSort() {
         </select>
       </div>
       <div className="mt-4 flex flex-col gap-4">
-        {isLoading ? <div>Loading...</div> : sortedItems.map((item) => <Item key={item.id} item={item} />)}
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : isError ? (
+          <div>Error...</div>
+        ) : (
+          sortedItems.map((item) => <Item key={item.id} item={item} />)
+        )}
       </div>
     </>
   );

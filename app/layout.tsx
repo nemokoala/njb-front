@@ -4,6 +4,7 @@ import './globals.css';
 import Layout from '@/components/layout';
 import Providers from '@/providers/query-provider';
 import { BottomModalProvider } from '@/providers/bottom-modal-provider';
+import AuthProvider from '@/provider/auth-provider';
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
   variable: '--font-pretendard',
@@ -23,9 +24,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${pretendard.variable} w-full bg-white antialiased`}>
         <Providers>
-          <BottomModalProvider>
-            <Layout>{children}</Layout>
-          </BottomModalProvider>
+          <AuthProvider>
+            <BottomModalProvider>
+              <Layout>{children}</Layout>
+            </BottomModalProvider>
+          </AuthProvider>
         </Providers>
       </body>
     </html>

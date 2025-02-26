@@ -7,11 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useLoginMutation } from '@/queries/mutation';
+import { useRouter } from 'next/navigation';
 
 export function LoginForm() {
+  const router = useRouter();
   const { mutate: loginMutate, isPending } = useLoginMutation(
     () => {
       console.log('로그인 성공');
+      router.push('/');
     },
     () => {
       console.log('로그인 실패');

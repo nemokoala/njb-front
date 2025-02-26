@@ -14,7 +14,7 @@ export function LoginForm() {
   const { mutate: loginMutate, isPending } = useLoginMutation(
     () => {
       console.log('로그인 성공');
-      router.push('/');
+      router.push('/refrigerator');
     },
     () => {
       console.log('로그인 실패');

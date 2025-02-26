@@ -13,7 +13,8 @@ export const useSignUpMutation = (onSuccess: (data: any) => void, onError: (erro
 
 export const useLoginMutation = (onSuccess: (data: any) => void, onError: (error: any) => void) => {
   return useMutation({
-    mutationFn: (data: { email: string; password: string }) => FetchUtil.post(AUTH_CONSTANTS.LOGIN, data),
+    mutationFn: (data: { email: string; password: string }) =>
+      FetchUtil.post(AUTH_CONSTANTS.LOGIN, data, { credentials: 'include' }),
     onSuccess: (data) => onSuccess(data),
     onError: (error) => onError(error),
   });

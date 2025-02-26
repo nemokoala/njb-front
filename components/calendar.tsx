@@ -5,14 +5,14 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko'; // 한국어 로케일
-import { useItems } from '@/queries/query';
+import { useItemsList } from '@/queries/query';
 import { useEffect } from 'react';
 import Item from './item';
 import { AnimatePresence, motion } from 'framer-motion';
 dayjs.locale('ko'); // 전역 한국어 설정
 
 export function Calendars() {
-  const { data: items } = useItems();
+  const { data: items } = useItemsList('0');
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const addedItems = items?.filter(

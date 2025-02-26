@@ -3,28 +3,14 @@
 import { useEffect, useState } from 'react';
 import Item from '@/components/item';
 import type { Item as ItemType } from '@/interfaces/item.interface';
-import { useItems } from '@/queries/query';
-
-export default function ClientSort() {
-  const { data: items, isLoading, isError } = useItems();
+import { useItemsList } from '@/queries/query';
+import { useSearchParams } from 'next/navigation';
+export default function ItemList() {
   const [sortBy, setSortBy] = useState<'name' | 'expiredAt' | 'createdAt'>('expiredAt');
   const [sortedItems, setSortedItems] = useState<ItemType[]>([]);
-  useEffect(() => {
-    if (!items) return;
-    const sortedItems = [...items].sort((a, b) => {
-      switch (sortBy) {
-        case 'name':
-          return a.name.localeCompare(b.name);
-        case 'expiredAt':
-          return new Date(a.expiredAt).getTime() - new Date(b.expiredAt).getTime();
-        case 'createdAt':
-          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-        default:
-          return new Date(a.expiredAt).getTime() - new Date(b.expiredAt).getTime();
-      }
-    });
-    setSortedItems(sortedItems);
-  }, [items]);
+  const params = useSearchParams();
+  const refrigeratorId = params.get('refrigeratorId') as string;
+  const { data: items, isLoading, isError } = useItemsList(refrigeratorId);
 
   return (
     <>
@@ -46,7 +32,7 @@ export default function ClientSort() {
         ) : isError ? (
           <div>Error...</div>
         ) : (
-          sortedItems.map((item) => <Item key={item.id} item={item} />)
+          items?.data.map((item) => <Item key={item.id} item={item} />)
         )}
       </div>
     </>

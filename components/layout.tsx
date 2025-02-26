@@ -19,12 +19,7 @@ function Header({ children, className }: { children: React.ReactNode; className?
 
 function Content({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div
-      className={cn(
-        'h-[calc(100dvh-120px)] w-full max-w-screen-md overflow-y-auto bg-background p-4 scrollbar-hide',
-        className,
-      )}
-    >
+    <div className={cn('w-full max-w-screen-md flex-1 overflow-y-auto bg-background p-4 scrollbar-hide', className)}>
       {children}
     </div>
   );

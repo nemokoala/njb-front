@@ -9,7 +9,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       queries: {
         retry: 3,
         refetchOnWindowFocus: false,
-        staleTime: 1000 * 60 * 5,
+        staleTime: 0,
         throwOnError: true,
       },
       mutations: {

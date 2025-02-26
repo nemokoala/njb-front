@@ -1,5 +1,6 @@
 'use client';
 
+import Layout from '@/components/layout';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
@@ -15,12 +16,17 @@ export default function ProfilePage() {
   };
 
   return (
-    <div>
-      <h1>ProfilePage</h1>
-      <button onClick={handleOpen}>Open</button>
-      <button onClick={handleClose}>Close</button>
-      <Modal isOpen={isOpen} onClose={handleClose} />
-    </div>
+    <>
+      <Layout.Content>
+        <div>
+          <h1>ProfilePage</h1>
+          <button onClick={handleOpen}>Open</button>
+          <button onClick={handleClose}>Close</button>
+          <Modal isOpen={isOpen} onClose={handleClose} />
+        </div>
+      </Layout.Content>
+      <Layout.Bottom />
+    </>
   );
 }
 

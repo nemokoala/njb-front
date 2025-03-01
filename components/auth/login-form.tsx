@@ -6,7 +6,7 @@ import { loginSchema, type LoginFormData } from '@/lib/schema';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { useLoginMutation } from '@/queries/mutation';
+import { useLoginMutation } from '@/queries/auth/mutation';
 import { useRouter } from 'next/navigation';
 
 export function LoginForm() {

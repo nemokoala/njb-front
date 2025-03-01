@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import Item from '@/components/item';
 import type { Item as ItemType } from '@/interfaces/item.interface';
-import { useItemsList } from '@/queries/query';
+import { useItemsList } from '@/queries/refrigerator/queries';
 import { useSearchParams } from 'next/navigation';
+import ItemForm from '@/components/item/item-form';
 export default function ItemList() {
   const [sortBy, setSortBy] = useState<'name' | 'expiredAt' | 'createdAt'>('expiredAt');
   const [sortedItems, setSortedItems] = useState<ItemType[]>([]);
@@ -16,6 +17,7 @@ export default function ItemList() {
     <>
       <p className="mt-8 text-4xl font-bold text-black">냉장고를 잘 부탁해</p>
       <div className="mt-6 flex justify-end">
+        <ItemForm />
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as typeof sortBy)}

@@ -6,12 +6,15 @@ import { signUpSchema, type SignUpFormData } from '@/lib/schema';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { useSignUpMutation } from '@/queries/mutation';
+import { useSignUpMutation } from '@/queries/auth/mutation';
+import { useRouter } from 'next/navigation';
 
 export function SignUpForm() {
+  const router = useRouter();
   const { mutate: signUpMutate, isPending } = useSignUpMutation(
     () => {
       console.log('회원가입 성공');
+      router.push('/auth?tab=login');
     },
     () => {
       console.log('회원가입 실패');

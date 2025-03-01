@@ -1,6 +1,6 @@
 import { getCookie } from './action';
-
-const handleFetch = async (endpoint: string, options: RequestInit) => {
+import { Response } from '@/interfaces/response.interface';
+const handleFetch = async <T>(endpoint: string, options: RequestInit) => {
   try {
     const accessToken = await getCookie('accessToken');
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
@@ -25,7 +25,7 @@ const handleFetch = async (endpoint: string, options: RequestInit) => {
       throw new Error(data.message || '데이터를 불러오는데 실패했습니다');
     }
 
-    return data;
+    return data as Response<T>;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message || '서버와의 통신에 실패했습니다');
@@ -49,21 +49,26 @@ export const FetchUtil = {
 };
 
 export const getNewAccessToken = async () => {
-  const refreshToken = await getCookie('refreshToken');
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      refreshToken: refreshToken?.value,
-    }),
-    credentials: 'include',
-  });
+  try {
+    const refreshToken = await getCookie('refreshToken');
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        refreshToken: refreshToken?.value,
+      }),
+      credentials: 'include',
+    });
 
-  if (response.status !== 200) {
-    throw new Error('새로운 액세스 토큰을 발급받는데 실패했습니다');
+    if (response.status !== 200) {
+      throw new Error('새로운 액세스 토큰을 발급받는데 실패했습니다');
+    }
+
+    return true;
+  } catch (error) {
+    console.error('새로운 액세스 토큰을 발급받는데 실패했습니다', error);
+    return false;
   }
-
-  return true;
 };

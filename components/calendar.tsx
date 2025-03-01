@@ -5,7 +5,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko'; // 한국어 로케일
-import { useItemsList } from '@/queries/query';
+import { useItemsList } from '@/queries/refrigerator/queries';
 import { useEffect } from 'react';
 import Item from './item';
 import { AnimatePresence, motion } from 'framer-motion';

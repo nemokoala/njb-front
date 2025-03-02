@@ -27,6 +27,18 @@ export const refrigeratorSchema = z.object({
   description: z.string().optional(),
 });
 
+export const itemSchema = z.object({
+  name: z.string().min(1, '재료 이름은 필수입니다.'),
+  photoUrl: z
+    .union([z.string().url({ message: '유효한 URL을 입력해주세요.' }), z.string().length(0), z.null()])
+    .optional(),
+  quantity: z.number().int().min(0, '수량은 0 이상이어야 합니다.'),
+  category: z.string().min(1, '카테고리는 필수입니다.'),
+  expirationDate: z.coerce.date({ invalid_type_error: '유효한 날짜를 입력해주세요.' }),
+  refrigeratorId: z.string().min(1, '냉장고 ID는 필수입니다.'),
+});
+
 export type SignUpFormData = z.infer<typeof signUpSchema>;
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RefrigeratorFormData = z.infer<typeof refrigeratorSchema>;
+export type ItemFormData = z.infer<typeof itemSchema>;

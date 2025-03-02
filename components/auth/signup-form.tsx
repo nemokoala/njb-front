@@ -8,28 +8,49 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useSignUpMutation } from '@/queries/auth/mutation';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
-export function SignUpForm() {
+interface SignUpFormProps {
+  defaultEmail: string;
+  defaultPassword: string;
+  onEmailChange: (email: string) => void;
+  onPasswordChange: (password: string) => void;
+}
+
+export function SignUpForm({ defaultEmail, defaultPassword, onEmailChange, onPasswordChange }: SignUpFormProps) {
   const router = useRouter();
   const { mutate: signUpMutate, isPending } = useSignUpMutation(
     () => {
-      console.log('회원가입 성공');
+      toast.success('회원가입 성공', {
+        description: '로그인 페이지로 이동합니다.',
+      });
       router.push('/auth?tab=login');
     },
     () => {
-      console.log('회원가입 실패');
+      toast.error('회원가입 실패', {
+        description: '입력하신 정보를 다시 확인해주세요.',
+      });
     },
   );
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       nickname: '',
-      email: '',
-      password: '',
+      email: defaultEmail,
+      password: defaultPassword,
       confirmPassword: '',
     },
     mode: 'onChange',
   });
+
+  // 입력값이 변경될 때마다 부모 컴포넌트에 알림
+  const handleEmailChange = (value: string) => {
+    onEmailChange(value);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    onPasswordChange(value);
+  };
 
   async function onSubmit(data: SignUpFormData) {
     // TODO: 여기에 회원가입 로직을 구현하세요
@@ -60,7 +81,15 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>이메일</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="이메일을 입력하세요" {...field} />
+                <Input
+                  type="email"
+                  placeholder="이메일을 입력하세요"
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    handleEmailChange(e.target.value);
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,7 +102,15 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>비밀번호</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="비밀번호를 입력하세요" {...field} />
+                <Input
+                  type="password"
+                  placeholder="비밀번호를 입력하세요"
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    handlePasswordChange(e.target.value);
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

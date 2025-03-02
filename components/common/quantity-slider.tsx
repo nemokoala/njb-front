@@ -66,7 +66,14 @@ export function QuantitySlider({ value, onChange, min = 1, max = 100 }: Quantity
 
   return (
     <div className="flex items-center space-x-2">
-      <Button variant="outline" size="icon" onClick={() => onChange(Math.max(min, value - 1))}>
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={(e) => {
+          e.preventDefault();
+          onChange(Math.max(min, value - 1));
+        }}
+      >
         <ChevronDown className="h-4 w-4" />
       </Button>
       <div
@@ -78,11 +85,21 @@ export function QuantitySlider({ value, onChange, min = 1, max = 100 }: Quantity
         <Input
           type="number"
           value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(e) => {
+            e.preventDefault();
+            onChange(Number(e.target.value));
+          }}
           className="w-16 border-none bg-transparent text-center"
         />
       </div>
-      <Button variant="outline" size="icon" onClick={() => onChange(Math.min(max, value + 1))}>
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={(e) => {
+          e.preventDefault();
+          onChange(Math.min(max, value + 1));
+        }}
+      >
         <ChevronUp className="h-4 w-4" />
       </Button>
     </div>

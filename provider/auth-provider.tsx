@@ -16,7 +16,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         if (!newAccessToken) {
           router.push('/auth');
         }
-      } else {
+      } else if (!accessToken && !refreshToken) {
         router.push('/auth');
       }
     };

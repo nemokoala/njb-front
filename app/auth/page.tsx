@@ -5,11 +5,13 @@ import { LoginForm } from '@/components/auth/login-form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Layout from '@/components/layout';
 import { useSearchParams, useRouter } from 'next/navigation';
-
+import { useState } from 'react';
 export default function AuthPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const tab = searchParams.get('tab') || 'login';
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleTabChange = (value: string) => {
     router.push(`/auth?tab=${value}`);
@@ -24,10 +26,20 @@ export default function AuthPage() {
           <TabsTrigger value="signup">회원가입</TabsTrigger>
         </TabsList>
         <TabsContent value="login">
-          <LoginForm />
+          <LoginForm
+            defaultEmail={email}
+            defaultPassword={password}
+            onEmailChange={setEmail}
+            onPasswordChange={setPassword}
+          />
         </TabsContent>
         <TabsContent value="signup">
-          <SignUpForm />
+          <SignUpForm
+            defaultEmail={email}
+            defaultPassword={password}
+            onEmailChange={setEmail}
+            onPasswordChange={setPassword}
+          />
         </TabsContent>
       </Tabs>
     </Layout.Content>

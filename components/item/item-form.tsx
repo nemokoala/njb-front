@@ -23,14 +23,7 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { QuantitySlider } from '@/components/common/quantity-slider';
-
-const formSchema = z.object({
-  name: z.string().min(1, { message: '재료 이름은 필수입니다.' }),
-  photoUrl: z.string().url({ message: '유효한 URL을 입력해주세요.' }).nullable().optional(),
-  quantity: z.number().int().positive({ message: '수량은 양의 정수여야 합니다.' }),
-  category: z.string().min(1, { message: '카테고리를 선택해주세요.' }),
-  expirationDate: z.date({ required_error: '유통기한을 선택해주세요.' }),
-});
+import { itemSchema, ItemFormData } from '@/lib/schema';
 
 // 이 부분은 실제 카테고리 목록으로 대체해야 합니다.
 const categories = ['과일', '채소', '육류', '유제품', '기타'];
@@ -38,18 +31,20 @@ const categories = ['과일', '채소', '육류', '유제품', '기타'];
 export default function IngredientModalForm({ refrigeratorId }: { refrigeratorId: string }) {
   const [open, setOpen] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ItemFormData>({
+    resolver: zodResolver(itemSchema),
     defaultValues: {
       name: '',
       photoUrl: '',
       quantity: 1,
       category: '',
       expirationDate: new Date(),
+      refrigeratorId,
     },
+    mode: 'onSubmit',
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: ItemFormData) {
     console.log({ ...values, refrigeratorId });
     // 여기에 제출 로직 추가
     setOpen(false); // 제출 후 모달 닫기

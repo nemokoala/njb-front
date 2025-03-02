@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { useRefrigeratorsList } from '@/queries/refrigerator/queries';
 import { useRouter } from 'next/navigation';
 import RefrigeratorModalForm from './refrigerator-form';
+import { Refrigerator } from 'lucide-react';
+import Image from 'next/image';
 
 export function RefrigeratorGrid() {
   const [selectedRefrigerator, setSelectedRefrigerator] = useState<string | null>(null);
@@ -17,57 +19,48 @@ export function RefrigeratorGrid() {
     router.push(`/item?refrigeratorId=${id}`);
   };
 
-  if (!isLoading && refrigerators?.length === 0)
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center">
-        <Card className="w-full max-w-[500px]">
-          <CardHeader>
-            <CardTitle>냉장고가 없습니다.</CardTitle>
-            <CardDescription>냉장고를 추가해주세요.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <RefrigeratorModalForm />
-          </CardContent>
-        </Card>
-      </div>
-    );
+  // if (!isLoading && refrigerators?.length === 0)
+  //   return (
+  //     <div className="flex h-full w-full flex-col items-center justify-center">
+  //       <Card className="w-full max-w-[500px]">
+  //         <CardHeader>
+  //           <CardTitle>냉장고가 없습니다.</CardTitle>
+  //           <CardDescription>냉장고를 추가해주세요.</CardDescription>
+  //         </CardHeader>
+  //         <CardContent>
+  //           <RefrigeratorModalForm />
+  //         </CardContent>
+  //       </Card>
+  //     </div>
+  //   );
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-      {!isLoading &&
-        refrigerators?.map((refrigerator) => (
-          <Card key={refrigerator.id}>
-            <CardHeader>
-              <CardTitle>{refrigerator.name}</CardTitle>
-              <CardDescription>{refrigerator.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <img
-                src={refrigerator.photoUrl || '/placeholder.svg'}
-                alt={refrigerator.name}
-                className="h-auto w-full rounded-md object-cover"
-              />
-            </CardContent>
-            <CardFooter>
-              <Button
-                onClick={() => handleSelect(refrigerator.id)}
-                variant={selectedRefrigerator === refrigerator.id ? 'secondary' : 'default'}
-                className="w-full"
-              >
-                {selectedRefrigerator === refrigerator.id ? '선택됨' : '선택하기'}
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      <Card className="w-full max-w-[500px]">
-        <CardHeader>
-          <CardTitle>냉장고가 없습니다.</CardTitle>
-          <CardDescription>냉장고를 추가해주세요.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <RefrigeratorModalForm />
-        </CardContent>
-      </Card>
-    </div>
+    <>
+      <div className="mb-4 grid grid-cols-2 gap-4">
+        {!isLoading &&
+          refrigerators?.map((refrigerator) => (
+            <Card key={refrigerator.id} className="aspect-square" onClick={() => handleSelect(refrigerator.id)}>
+              <CardHeader>
+                <CardTitle>{refrigerator.name}</CardTitle>
+                <CardDescription>{refrigerator.description}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {refrigerator.photoUrl ? (
+                  <Image
+                    src={refrigerator.photoUrl}
+                    alt={refrigerator.name}
+                    className="h-auto w-full rounded-md object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <Refrigerator className="h-1/2 w-1/2 rounded-md object-cover" strokeWidth={1} />
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+      </div>
+      <RefrigeratorModalForm />
+    </>
   );
 }

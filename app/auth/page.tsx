@@ -18,30 +18,32 @@ export default function AuthPage() {
   };
 
   return (
-    <Layout.Content className="container mx-auto p-5">
-      <p className="text-2xl font-bold">NJB</p>
-      <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="login">로그인</TabsTrigger>
-          <TabsTrigger value="signup">회원가입</TabsTrigger>
-        </TabsList>
-        <TabsContent value="login">
-          <LoginForm
-            defaultEmail={email}
-            defaultPassword={password}
-            onEmailChange={setEmail}
-            onPasswordChange={setPassword}
-          />
-        </TabsContent>
-        <TabsContent value="signup">
-          <SignUpForm
-            defaultEmail={email}
-            defaultPassword={password}
-            onEmailChange={setEmail}
-            onPasswordChange={setPassword}
-          />
-        </TabsContent>
-      </Tabs>
+    <Layout.Content className="flex flex-col p-5">
+      <article className="mt-16 w-full">
+        <p className="mb-10 w-full text-center text-3xl font-bold">냉장고를 잘 부탁해</p>
+        <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="login">로그인</TabsTrigger>
+            <TabsTrigger value="signup">회원가입</TabsTrigger>
+          </TabsList>
+          <TabsContent value="login">
+            <LoginForm
+              defaultEmail={email}
+              defaultPassword={password}
+              onEmailChange={setEmail}
+              onPasswordChange={setPassword}
+            />
+          </TabsContent>
+          <TabsContent value="signup">
+            <SignUpForm
+              defaultEmail={email}
+              defaultPassword={password}
+              onEmailChange={setEmail}
+              onPasswordChange={setPassword}
+            />
+          </TabsContent>
+        </Tabs>
+      </article>
     </Layout.Content>
   );
 }

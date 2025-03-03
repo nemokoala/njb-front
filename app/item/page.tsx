@@ -5,9 +5,9 @@ import Header from '@/components/common/header';
 export default function ItemPage() {
   return (
     <>
-      <Layout.Header>
+      {/* <Layout.Header>
         <Header title="재료" backButton />
-      </Layout.Header>
+      </Layout.Header> */}
       <Layout.Content>
         <ItemList />
       </Layout.Content>

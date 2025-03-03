@@ -2,14 +2,14 @@
 
 import type { Item } from '@/interfaces/item.interface';
 import dayjs from 'dayjs';
-import { Ellipsis } from 'lucide-react';
+import { Ellipsis, ImageOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useBottomSheet } from '@/providers/bottom-modal-provider';
 
 export default function Item({ item }: { item: Item }) {
   const { showModal } = useBottomSheet();
   const getProgressColor = (progress: number) => {
-    if (progress > 50) return 'var(--primary)';
+    if (progress > 50) return 'hsl(var(--primary))';
     if (progress > 25) return '#ff8000';
     return '#b40000';
   };
@@ -23,7 +23,7 @@ export default function Item({ item }: { item: Item }) {
     return diffDays;
   };
 
-  const getProgress = (createdAt: string, expiredAt: string) => {
+  const getProgress = (expiredAt: string) => {
     const daysLeft = getDaysLeft(expiredAt);
 
     const progress = daysLeft * 10;
@@ -31,12 +31,19 @@ export default function Item({ item }: { item: Item }) {
     return Math.max(0, Math.min(100, progress));
   };
 
-  const daysLeft = getDaysLeft(item.expiredAt);
-  const progress = getProgress(item.createdAt, item.expiredAt);
+  const daysLeft = getDaysLeft(item.expirationDate);
+  const progress = getProgress(item.expirationDate);
+
   return (
-    <div className="flex h-[100px] items-center rounded-lg bg-white">
+    <div className="flex h-[100px] items-center rounded-lg bg-white shadow-md">
       <div className="h-[100px] w-[100px] min-w-[100px] rounded-l-md bg-gray-200">
-        <img src={item.imgUrl} alt={item.name} className="h-full w-full object-cover" />
+        {item.photoUrl ? (
+          <img src={item.photoUrl} alt={item.name} className="h-full w-full object-cover" />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center rounded-l-md bg-gray-200">
+            <ImageOff className="h-1/2 w-1/2 text-gray-500" />
+          </div>
+        )}
       </div>
       <div className="flex h-full flex-1 flex-col px-3 py-2">
         <p className="text-lg font-bold">{item.name}</p>
@@ -51,7 +58,7 @@ export default function Item({ item }: { item: Item }) {
           <p className="text-right text-sm leading-[17px] text-gray-500">
             유통기한
             <br />
-            {item.expiredAt}
+            {item.expirationDate}
           </p>
         </div>
         <div className="relative mt-1">

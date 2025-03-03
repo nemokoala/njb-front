@@ -1,16 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRefrigeratorsList } from '@/queries/refrigerator/queries';
 import { useRouter } from 'next/navigation';
 import RefrigeratorModalForm from './refrigerator-form';
 import { Refrigerator } from 'lucide-react';
 import Image from 'next/image';
+import { Skeleton } from '../ui/skeleton';
 
 export function RefrigeratorGrid() {
-  const [selectedRefrigerator, setSelectedRefrigerator] = useState<string | null>(null);
   const { data, isLoading } = useRefrigeratorsList();
   const refrigerators = data?.data;
   const router = useRouter();
@@ -36,10 +34,15 @@ export function RefrigeratorGrid() {
 
   return (
     <>
-      <div className="mb-4 grid grid-cols-2 gap-4">
+      <div className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+        {isLoading && Array.from({ length: 12 }).map((_, index) => <Skeleton key={index} className="aspect-square" />)}
         {!isLoading &&
           refrigerators?.map((refrigerator) => (
-            <Card key={refrigerator.id} className="aspect-square" onClick={() => handleSelect(refrigerator.id)}>
+            <Card
+              key={refrigerator.id}
+              className="aspect-square cursor-pointer"
+              onClick={() => handleSelect(refrigerator.id)}
+            >
               <CardHeader>
                 <CardTitle>{refrigerator.name}</CardTitle>
                 <CardDescription>{refrigerator.description}</CardDescription>

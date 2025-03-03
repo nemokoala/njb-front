@@ -17,7 +17,8 @@ export const useRefrigeratorMutation = (
 
 export const useItemMutation = (onSuccess: (response: CommonResponse) => void, onError: (error: Error) => void) => {
   return useMutation({
-    mutationFn: (data: ItemFormData) => FetchUtil.post(`${REFRIGERATOR_CONSTANTS.ITEMS}/${data.refrigeratorId}`, data),
+    mutationFn: ({ refrigeratorId, ...data }: { refrigeratorId: string } & ItemFormData) =>
+      FetchUtil.post(`${REFRIGERATOR_CONSTANTS.REFRIGERATORS}/${refrigeratorId}/ingredients`, [data]),
     onSuccess: (data) => onSuccess(data),
     onError: (error) => onError(error),
   });

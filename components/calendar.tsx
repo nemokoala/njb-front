@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko'; // 한국어 로케일
 import { useItemsList } from '@/queries/refrigerator/queries';
 import { useEffect } from 'react';
-import Item from './item';
+import Item from './item/item';
 import { AnimatePresence, motion } from 'framer-motion';
 dayjs.locale('ko'); // 전역 한국어 설정
 

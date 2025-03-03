@@ -1,4 +1,4 @@
-import { getCookie } from './action';
+import { getCookie, removeCookie } from './action';
 import { Response } from '@/interfaces/response.interface';
 const handleFetch = async <T>(endpoint: string, options: RequestInit) => {
   try {
@@ -63,11 +63,15 @@ export const getNewAccessToken = async () => {
     });
 
     if (response.status !== 200) {
+      await removeCookie('refreshToken');
+      window.location.href = '/auth';
       throw new Error('새로운 액세스 토큰을 발급받는데 실패했습니다');
     }
 
     return true;
   } catch (error) {
+    await removeCookie('refreshToken');
+    window.location.href = '/auth';
     console.error('새로운 액세스 토큰을 발급받는데 실패했습니다', error);
     return false;
   }

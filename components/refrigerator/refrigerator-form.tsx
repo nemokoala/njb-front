@@ -40,6 +40,7 @@ export default function RefrigeratorModalForm() {
       photoUrl: '',
       description: '',
     },
+    mode: 'onSubmit',
   });
 
   function onSubmit(values: RefrigeratorFormData) {

@@ -35,7 +35,6 @@ export const itemSchema = z.object({
   quantity: z.number().int().min(0, '수량은 0 이상이어야 합니다.'),
   category: z.string().min(1, '카테고리는 필수입니다.'),
   expirationDate: z.coerce.date({ invalid_type_error: '유효한 날짜를 입력해주세요.' }),
-  refrigeratorId: z.string().min(1, '냉장고 ID는 필수입니다.'),
 });
 
 export type SignUpFormData = z.infer<typeof signUpSchema>;

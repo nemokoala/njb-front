@@ -17,13 +17,13 @@ export default function Header({
   return (
     <header
       className={cn(
-        'flex h-[50px] w-full items-center justify-center rounded-none bg-primary text-xl font-bold',
+        'flex h-[50px] w-full items-center justify-center rounded-none bg-[#F5F5F5] text-xl font-bold text-stone-700',
         className,
       )}
     >
       {backButton && (
-        <Button variant="ghost" size="icon" className="absolute left-0 h-10 w-10" onClick={() => router.back()}>
-          <ChevronLeft size={30} />
+        <Button variant="none" size="icon" className="absolute left-0 h-10 w-10" onClick={() => router.back()}>
+          <ChevronLeft />
         </Button>
       )}
       {title}

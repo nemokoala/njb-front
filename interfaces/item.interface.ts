@@ -4,7 +4,7 @@ export interface Item {
   name: string;
   photoUrl: string;
   quantity: number;
-  category: string;
+  categoryId: string;
   registrationDate: string;
   expirationDate: string;
 }

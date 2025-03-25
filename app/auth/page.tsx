@@ -4,12 +4,14 @@ import { SignUpForm } from '@/components/auth/signup-form';
 import { LoginForm } from '@/components/auth/login-form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Layout from '@/components/layout';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
-export default function AuthPage() {
-  const searchParams = useSearchParams();
+import { useRouter } from 'next/navigation';
+import { Suspense, useState } from 'react';
+import { useUrlQuery } from '@/hooks/use-url-query';
+
+function AuthPage() {
+  const { getParam } = useUrlQuery();
   const router = useRouter();
-  const tab = searchParams.get('tab') || 'login';
+  const tab = getParam('tab') || 'login';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -45,5 +47,13 @@ export default function AuthPage() {
         </Tabs>
       </article>
     </Layout.Content>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthPage />
+    </Suspense>
   );
 }

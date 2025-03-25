@@ -10,11 +10,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function Header({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={cn('h-[50px] w-full max-w-screen-md rounded-none bg-primary text-white', className)}>
-      <div className="flex h-full items-center justify-center">{children}</div>
-    </div>
-  );
+  return <div className={cn('min-h-11 w-full max-w-screen-md rounded-none', className)}>{children}</div>;
 }
 
 function Content({ children, className }: { children: React.ReactNode; className?: string }) {

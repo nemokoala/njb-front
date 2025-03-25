@@ -1,5 +1,5 @@
 import { getCookie, removeCookie } from './action';
-import { Response } from '@/interfaces/response.interface';
+import { CommonResponse } from '@/interfaces/response.interface';
 const handleFetch = async <T>(endpoint: string, options: RequestInit) => {
   try {
     const accessToken = await getCookie('accessToken');
@@ -25,7 +25,7 @@ const handleFetch = async <T>(endpoint: string, options: RequestInit) => {
       throw new Error(data.message || '데이터를 불러오는데 실패했습니다');
     }
 
-    return data as Response<T>;
+    return data as CommonResponse<T>;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message || '서버와의 통신에 실패했습니다');
@@ -42,6 +42,22 @@ export const FetchUtil = {
   post: async <T>(endpoint: string, data: T, options: RequestInit = {}) => {
     return await handleFetch(endpoint, {
       method: 'POST',
+      body: JSON.stringify(data),
+      ...options,
+    });
+  },
+
+  put: async <T>(endpoint: string, data: T, options: RequestInit = {}) => {
+    return await handleFetch(endpoint, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      ...options,
+    });
+  },
+
+  delete: async <T>(endpoint: string, data: T, options: RequestInit = {}) => {
+    return await handleFetch(endpoint, {
+      method: 'DELETE',
       body: JSON.stringify(data),
       ...options,
     });

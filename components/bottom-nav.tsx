@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, Package, Refrigerator, User } from 'lucide-react';
+import { Calendar, Refrigerator, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -12,17 +12,10 @@ export function BottomNav() {
       <div className="mx-auto flex max-w-screen-md justify-around py-3">
         <Link
           href="/refrigerator"
-          className={`flex flex-col items-center ${pathname === '/refrigerator' ? 'text-primary' : 'text-black'}`}
+          className={`flex flex-col items-center ${pathname === '/refrigerator' || pathname === '/item' ? 'text-primary' : 'text-black'}`}
         >
           <Refrigerator size={20} />
           <span>냉장고</span>
-        </Link>
-        <Link
-          href="/item"
-          className={`flex flex-col items-center ${pathname === '/item' ? 'text-primary' : 'text-black'}`}
-        >
-          <Package size={20} />
-          <span>재료</span>
         </Link>
         <Link
           href="/calendar"

@@ -33,8 +33,9 @@ export const itemSchema = z.object({
     .union([z.string().url({ message: '유효한 URL을 입력해주세요.' }), z.string().length(0), z.null()])
     .optional(),
   quantity: z.number().int().min(0, '수량은 0 이상이어야 합니다.'),
-  category: z.string().min(1, '카테고리는 필수입니다.'),
+  categoryId: z.number().int().min(1, '카테고리는 필수입니다.'),
   expirationDate: z.coerce.date({ invalid_type_error: '유효한 날짜를 입력해주세요.' }),
+  ingredientId: z.number().optional(),
 });
 
 export type SignUpFormData = z.infer<typeof signUpSchema>;

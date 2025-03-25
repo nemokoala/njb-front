@@ -4,8 +4,10 @@ import './globals.css';
 import Layout from '@/components/layout';
 import Providers from '@/providers/query-provider';
 import { BottomModalProvider } from '@/providers/bottom-modal-provider';
-import AuthProvider from '@/provider/auth-provider';
+import AuthProvider from '@/providers/auth-provider';
 import { Toaster } from 'sonner';
+import { ModalProvider } from '@/providers/modal-provider';
+
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
   variable: '--font-pretendard',
@@ -27,8 +29,10 @@ export default function RootLayout({
         <Providers>
           <AuthProvider>
             <BottomModalProvider>
-              <Layout>{children}</Layout>
-              <Toaster richColors position="top-center" />
+              <ModalProvider>
+                <Layout>{children}</Layout>
+                <Toaster richColors position="top-center" />
+              </ModalProvider>
             </BottomModalProvider>
           </AuthProvider>
         </Providers>

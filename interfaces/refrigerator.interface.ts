@@ -1,6 +1,11 @@
 export interface Refrigerator {
-  id: string;
+  id: number;
   name: string;
   photoUrl: string | null;
   description: string;
+}
+
+export interface Category {
+  id: number;
+  name: string;
 }

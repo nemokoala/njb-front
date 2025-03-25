@@ -3,17 +3,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRefrigeratorsList } from '@/queries/refrigerator/queries';
 import { useRouter } from 'next/navigation';
-import RefrigeratorModalForm from './refrigerator-form';
 import { Refrigerator } from 'lucide-react';
 import Image from 'next/image';
 import { Skeleton } from '../ui/skeleton';
 
 export function RefrigeratorGrid() {
-  const { data, isLoading } = useRefrigeratorsList();
-  const refrigerators = data?.data;
+  const { data: refrigerators, isLoading } = useRefrigeratorsList();
   const router = useRouter();
 
-  const handleSelect = (id: string) => {
+  const handleSelect = (id: number) => {
     router.push(`/item?refrigeratorId=${id}`);
   };
 
@@ -53,6 +51,8 @@ export function RefrigeratorGrid() {
                     src={refrigerator.photoUrl}
                     alt={refrigerator.name}
                     className="h-auto w-full rounded-md object-cover"
+                    width={100}
+                    height={100}
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
@@ -63,7 +63,6 @@ export function RefrigeratorGrid() {
             </Card>
           ))}
       </div>
-      <RefrigeratorModalForm />
     </>
   );
 }

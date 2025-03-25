@@ -3,6 +3,10 @@ import localFont from 'next/font/local';
 import './globals.css';
 import Layout from '@/components/layout';
 import Providers from '@/providers/query-provider';
+import { BottomModalProvider } from '@/providers/bottom-modal-provider';
+import AuthProvider from '@/providers/auth-provider';
+import { Toaster } from 'sonner';
+import { ModalProvider } from '@/providers/modal-provider';
 
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
@@ -23,7 +27,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${pretendard.variable} w-full bg-white antialiased`}>
         <Providers>
-          <Layout>{children}</Layout>
+          <AuthProvider>
+            <BottomModalProvider>
+              <ModalProvider>
+                <Layout>{children}</Layout>
+                <Toaster richColors position="top-center" />
+              </ModalProvider>
+            </BottomModalProvider>
+          </AuthProvider>
         </Providers>
       </body>
     </html>

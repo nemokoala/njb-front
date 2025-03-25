@@ -10,7 +10,10 @@ export function BottomNav() {
   return (
     <nav className="mx-auto h-[70px] w-full max-w-screen-md border-t bg-background bg-white">
       <div className="mx-auto flex max-w-screen-md justify-around py-3">
-        <Link href="/" className={`flex flex-col items-center ${pathname === '/' ? 'text-primary' : 'text-black'}`}>
+        <Link
+          href="/refrigerator"
+          className={`flex flex-col items-center ${pathname === '/refrigerator' || pathname === '/item' ? 'text-primary' : 'text-black'}`}
+        >
           <Refrigerator size={20} />
           <span>냉장고</span>
         </Link>

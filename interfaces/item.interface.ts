@@ -1,7 +1,10 @@
 export interface Item {
-  id: string;
+  id: number;
+  refrigeratorId: number;
   name: string;
-  image: string;
-  createdAt: string;
-  expiredAt: string;
+  photoUrl: string;
+  quantity: number;
+  categoryId: string;
+  registrationDate: string;
+  expirationDate: string;
 }

@@ -1,4 +1,4 @@
-// import { Calendars } from '@/components/calendar';
+import { Calendars } from '@/components/calendar';
 import Layout from '@/components/layout';
 
 export default async function Calendar() {
@@ -7,8 +7,10 @@ export default async function Calendar() {
       <Layout.Header>
         <div className="text-xl font-bold">캘린더</div>
       </Layout.Header>
-      {/* <Layout.Content><Calendars /></Layout.Content> */}
-      {/* <Layout.Bottom /> */}
+      <Layout.Content>
+        <Calendars />
+      </Layout.Content>
+      <Layout.Bottom />
     </>
   );
 }

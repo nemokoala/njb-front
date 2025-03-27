@@ -4,7 +4,7 @@ import { BottomNav } from './bottom-nav';
 function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="m-0 flex h-[100dvh] w-full flex-col items-center overflow-hidden">{children}</div>
+      <div className="m-0 flex h-[100dvh] w-full flex-col items-center overflow-hidden bg-zinc-50">{children}</div>
     </>
   );
 }
@@ -15,7 +15,7 @@ function Header({ children, className }: { children: React.ReactNode; className?
 
 function Content({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn('w-full max-w-screen-md flex-1 overflow-y-auto bg-background p-4 scrollbar-hide', className)}>
+    <div className={cn('w-full max-w-screen-md flex-1 overflow-y-auto bg-background p-3 scrollbar-hide', className)}>
       {children}
     </div>
   );

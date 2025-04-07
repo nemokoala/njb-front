@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useLoginMutation } from '@/queries/auth/mutation';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-
+import { useUserStore } from '@/store/auth';
 interface LoginFormProps {
   defaultEmail: string;
   defaultPassword: string;
@@ -19,8 +19,12 @@ interface LoginFormProps {
 
 export function LoginForm({ defaultEmail, defaultPassword, onEmailChange, onPasswordChange }: LoginFormProps) {
   const router = useRouter();
+  const setUserState = useUserStore((state) => state.setAccessToken);
   const { mutate: loginMutate, isPending } = useLoginMutation(
-    () => {
+    (userData) => {
+      // 로그인 성공 시 유저 정보 저장
+      setUserState(userData.accessToken);
+
       toast.success('로그인 성공', {
         description: '환영합니다!',
       });

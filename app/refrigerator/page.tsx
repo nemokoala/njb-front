@@ -1,8 +1,10 @@
+'use client';
 import Layout from '@/components/layout';
 import { RefrigeratorGrid } from '@/components/refrigerator/refrigerator';
 import RefrigeratorModalForm from '@/components/refrigerator/refrigerator-form';
+import { Suspense } from 'react';
 
-export default function RefrigeratorPage() {
+function Refrigerator() {
   return (
     <>
       <Layout.Header className="flex flex-col rounded-b-3xl bg-green-100 p-5">
@@ -13,7 +15,14 @@ export default function RefrigeratorPage() {
       <Layout.Content>
         <RefrigeratorGrid />
       </Layout.Content>
-      <Layout.Bottom />
     </>
+  );
+}
+
+export default function RefrigeratorPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Refrigerator />
+    </Suspense>
   );
 }

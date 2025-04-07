@@ -1,7 +1,10 @@
+'use client';
+
 import { Calendars } from '@/components/calendar';
 import Layout from '@/components/layout';
+import { Suspense } from 'react';
 
-export default async function Calendar() {
+function Calendar() {
   return (
     <>
       <Layout.Header>
@@ -10,7 +13,14 @@ export default async function Calendar() {
       <Layout.Content>
         <Calendars />
       </Layout.Content>
-      <Layout.Bottom />
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Calendar />
+    </Suspense>
   );
 }

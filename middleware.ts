@@ -22,6 +22,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // 보호하고 싶은 경로 패턴 추가
-    '/((?!auth|api|_next/static|_next/image|favicon.ico|firebase-messaging-sw.js).*)',
+    '/((?!auth|api|icons|_next/static|_next/image|favicon.ico|firebase-messaging-sw.js|manifest.json).*)',
   ],
 };

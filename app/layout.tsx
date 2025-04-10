@@ -8,7 +8,7 @@ import AuthProvider from '@/providers/auth-provider';
 import { Toaster } from 'sonner';
 import { ModalProvider } from '@/providers/modal-provider';
 import NotificationProvider from '@/providers/notification-provider';
-import { BottomNav } from '@/components/bottom-nav';
+import BottomNav from '@/components/bottom-nav';
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
   variable: '--font-pretendard',

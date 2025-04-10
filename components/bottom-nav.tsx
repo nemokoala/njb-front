@@ -5,8 +5,9 @@ import { Calendar, Package, Refrigerator, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Suspense } from 'react';
 
-export function BottomNav() {
+function BottomNavContent() {
   const pathname = usePathname();
   const { getParam } = useUrlQuery();
   const refrigeratorId = getParam('refrigeratorId') as string;
@@ -81,5 +82,13 @@ export function BottomNav() {
         </motion.div>
       </div>
     </nav>
+  );
+}
+
+export default function BottomNav() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BottomNavContent />
+    </Suspense>
   );
 }

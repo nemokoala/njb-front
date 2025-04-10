@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { BottomNav } from './bottom-nav';
+import BottomNav from './bottom-nav';
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (

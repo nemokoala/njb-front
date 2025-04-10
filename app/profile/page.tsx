@@ -2,9 +2,9 @@
 
 import Layout from '@/components/layout';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
-export default function ProfilePage() {
+function Profile() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
@@ -25,7 +25,6 @@ export default function ProfilePage() {
           <Modal isOpen={isOpen} onClose={handleClose} />
         </div>
       </Layout.Content>
-      <Layout.Bottom />
     </>
   );
 }
@@ -59,3 +58,11 @@ const Modal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
     </AnimatePresence>
   );
 };
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Profile />
+    </Suspense>
+  );
+}

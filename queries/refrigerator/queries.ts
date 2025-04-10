@@ -5,12 +5,16 @@ import { FetchUtil } from '@/lib/Fetch.util';
 import { useQuery } from '@tanstack/react-query';
 import { REFRIGERATOR_CONSTANTS } from '@/constants/refrigerator.contants';
 
-export const useItemsList = (refrigeratorId: string) => {
+export const useItemsList = (
+  refrigeratorId: string,
+  sortField: 'name' | 'expirationDate' | 'registrationDate' = 'expirationDate',
+  sortOrder: 'asc' | 'desc' = 'desc',
+) => {
   return useQuery({
-    queryKey: ['items', refrigeratorId],
+    queryKey: ['items', refrigeratorId, sortField, sortOrder],
     queryFn: async () => {
       const response = (await FetchUtil.get(
-        `${REFRIGERATOR_CONSTANTS.REFRIGERATORS}/${refrigeratorId}/ingredients`,
+        `${REFRIGERATOR_CONSTANTS.REFRIGERATORS}/${refrigeratorId}/ingredients?sortField=${sortField}&sortOrder=${sortOrder}`,
       )) as CommonResponse<Item[]>;
       return response.data;
     },

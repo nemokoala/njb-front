@@ -34,8 +34,8 @@ export default function Item({ item }: { item: Item }) {
   const progress = getProgress(item.expirationDate);
 
   return (
-    <div className="flex h-[90px] items-center rounded-lg bg-white shadow-md">
-      <div className="h-full w-[100px] min-w-[100px] rounded-l-md bg-gray-200">
+    <div className="flex h-[90px] items-center rounded-lg border border-gray-200 bg-white">
+      <div className="h-full w-[90px] min-w-[90px] rounded-l-md bg-gray-200">
         {item.photoUrl ? (
           <img src={item.photoUrl} alt={item.name} className="h-full w-full object-cover" />
         ) : (

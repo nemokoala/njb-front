@@ -1,4 +1,4 @@
-import { getCookie, removeCookie } from './action';
+import { getCookie, removeCookie, setCookie } from './action';
 import { CommonResponse } from '@/interfaces/response.interface';
 import { useUserStore } from '@/store/auth';
 
@@ -90,12 +90,22 @@ export const getNewAccessToken = async () => {
     const data = await response.json();
     console.log('data', data);
     const newAccessToken = data.data.accessToken;
+    const newRefreshToken = data.data.refreshToken;
+    const newRefreshExpireTimeEpoch = data.data.refreshExpireTimeEpoch;
 
     // Zustand 스토어에 새 토큰 저장
     if (newAccessToken) {
       const setAccessToken = useUserStore.getState().setAccessToken;
       console.log('newAccessToken', newAccessToken);
       setAccessToken(newAccessToken);
+    }
+
+    if (newRefreshToken) {
+      await setCookie('rft', newRefreshToken, {
+        httpOnly: true,
+        domain: 'recipic.shop',
+        expires: new Date(newRefreshExpireTimeEpoch * 1000),
+      });
     }
 
     return true;

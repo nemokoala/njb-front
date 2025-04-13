@@ -112,7 +112,7 @@ export function Calendars() {
           {selectedDate && addedItems && addedItems.length > 0 && (
             <div>
               <p className="mb-2 text-xl font-bold">추가한 항목</p>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3">
                 {addedItems.map((item) => (
                   <Item key={item.id} item={item} />
                 ))}
@@ -122,7 +122,7 @@ export function Calendars() {
           {selectedDate && expiredItems && expiredItems.length > 0 && (
             <div>
               <p className="mb-2 text-xl font-bold">만료된 항목</p>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3">
                 {expiredItems.map((item) => (
                   <Item key={item.id} item={item} />
                 ))}

@@ -32,7 +32,7 @@ export function LoginForm({ defaultEmail, defaultPassword, onEmailChange, onPass
       setCookie('rft', userData.refreshToken, {
         httpOnly: true,
         domain: 'recipic.shop',
-        expires: new Date(userData.refreshExpireTimeEpoch),
+        expires: new Date(userData.refreshExpireTimeEpoch * 1000),
       });
       setTimeout(() => {
         router.push('/refrigerator');

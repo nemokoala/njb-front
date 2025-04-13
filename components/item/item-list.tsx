@@ -38,7 +38,7 @@ export default function ItemList() {
         </Select>
       </div>
 
-      <div className="mt-4 flex flex-col gap-4 rounded-lg bg-white">
+      <div className="mt-4 flex flex-col gap-3 rounded-lg">
         {isLoading
           ? Array.from({ length: 12 }).map((_, index) => <Skeleton key={index} className="h-[100px]" />)
           : items?.map((item) => <Item key={item.id} item={item} />)}

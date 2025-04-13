@@ -45,7 +45,7 @@ export default function Item({ item }: { item: Item }) {
         )}
       </div>
       <div className="flex h-full flex-1 flex-col px-3 py-2">
-        <p className="text-lg font-bold">{item.name}</p>
+        <p className="h-6 text-lg font-bold">{item.name}</p>
         <div className="flex justify-between">
           {daysLeft >= 0 ? (
             <p

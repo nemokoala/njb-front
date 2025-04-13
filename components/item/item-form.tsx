@@ -119,7 +119,7 @@ export default function ItemModalForm({
   if (isEditMode) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[100dvh] overflow-y-auto sm:max-w-[500px]">
+        <DialogContent className="max-h-[90dvh] overflow-y-auto scrollbar-hide sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>재료 수정</DialogTitle>
             <DialogDescription>냉장고에 있는 재료 정보를 수정해주세요.</DialogDescription>
@@ -225,6 +225,7 @@ export default function ItemModalForm({
                           disabled={(date) => date < new Date() || date > new Date('2100-01-01')}
                           initialFocus
                           locale={ko}
+                          className="min-h-[325px]"
                         />
                       </PopoverContent>
                     </Popover>
@@ -284,7 +285,7 @@ export default function ItemModalForm({
       </Dialog>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[100dvh] overflow-y-auto sm:max-w-[500px]">
+        <DialogContent className="max-h-[90dvh] overflow-y-auto scrollbar-hide sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>재료 정보</DialogTitle>
             <DialogDescription>냉장고에 추가할 재료 정보를 입력해주세요.</DialogDescription>
@@ -390,6 +391,7 @@ export default function ItemModalForm({
                           disabled={(date) => date < new Date() || date > new Date('2100-01-01')}
                           initialFocus
                           locale={ko}
+                          className="min-h-[325px]"
                         />
                       </PopoverContent>
                     </Popover>

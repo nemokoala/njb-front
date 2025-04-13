@@ -1,13 +1,11 @@
-import { getCookie, removeCookie } from './action';
+import { getCookie, removeCookie, setCookie } from './action';
 import { CommonResponse } from '@/interfaces/response.interface';
 import { useUserStore } from '@/store/auth';
 
 const handleFetch = async <T>(endpoint: string, options: RequestInit) => {
   try {
-    // const accessToken = await getCookie('accessToken');
     const accessToken = useUserStore.getState().accessToken;
-    // if (!accessToken) await getNewAccessToken();
-    console.log('util accessToken', accessToken);
+
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
       ...options,
       headers: {
@@ -70,7 +68,7 @@ export const FetchUtil = {
 
 export const getNewAccessToken = async () => {
   try {
-    const refreshToken = await getCookie('refreshToken');
+    const refreshToken = await getCookie('rft');
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
       method: 'POST',
       headers: {
@@ -83,8 +81,8 @@ export const getNewAccessToken = async () => {
     });
 
     if (response.status !== 200) {
-      await removeCookie('refreshToken');
-      window.location.href = '/auth';
+      await removeCookie('rft');
+      window.location.href = '/auth?expired=true';
       throw new Error('새로운 액세스 토큰을 발급받는데 실패했습니다');
     }
 
@@ -92,6 +90,8 @@ export const getNewAccessToken = async () => {
     const data = await response.json();
     console.log('data', data);
     const newAccessToken = data.data.accessToken;
+    const newRefreshToken = data.data.refreshToken;
+    const newRefreshExpireTimeEpoch = data.data.refreshExpireTimeEpoch;
 
     // Zustand 스토어에 새 토큰 저장
     if (newAccessToken) {
@@ -100,10 +100,18 @@ export const getNewAccessToken = async () => {
       setAccessToken(newAccessToken);
     }
 
+    if (newRefreshToken) {
+      await setCookie('rft', newRefreshToken, {
+        httpOnly: true,
+        domain: 'recipic.shop',
+        expires: new Date(newRefreshExpireTimeEpoch * 1000),
+      });
+    }
+
     return true;
   } catch (error) {
-    await removeCookie('refreshToken');
-    window.location.href = '/auth';
+    await removeCookie('rft');
+    window.location.href = '/auth?expired=true';
     console.error('새로운 액세스 토큰을 발급받는데 실패했습니다', error);
     return false;
   }

@@ -10,6 +10,7 @@ import { useLoginMutation } from '@/queries/auth/mutation';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useUserStore } from '@/store/auth';
+import { setCookie } from '@/lib/action';
 interface LoginFormProps {
   defaultEmail: string;
   defaultPassword: string;
@@ -28,7 +29,14 @@ export function LoginForm({ defaultEmail, defaultPassword, onEmailChange, onPass
       toast.success('로그인 성공', {
         description: '환영합니다!',
       });
-      router.push('/refrigerator');
+      setCookie('rft', userData.refreshToken, {
+        httpOnly: true,
+        domain: 'recipic.shop',
+        expires: new Date(userData.refreshExpireTimeEpoch * 1000),
+      });
+      setTimeout(() => {
+        router.push('/refrigerator');
+      }, 300);
     },
     () => {
       toast.error('로그인 실패', {

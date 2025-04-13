@@ -22,7 +22,7 @@ export function Calendars() {
     (item) => dayjs(item.registrationDate).format('YYYY-MM-DD') === dayjs(selectedDate).format('YYYY-MM-DD'),
   );
   const expiredItems = items?.filter(
-    (item) => dayjs(item.expirationDate).format('YYYY-MM-DD') < dayjs(selectedDate).format('YYYY-MM-DD'),
+    (item) => dayjs(item.expirationDate).format('YYYY-MM-DD') === dayjs(selectedDate).format('YYYY-MM-DD'),
   );
 
   const showTitleContent = (date: Date, view: 'year' | 'month') => {

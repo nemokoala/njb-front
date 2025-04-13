@@ -8,11 +8,12 @@ import { useUrlQuery } from '@/hooks/use-url-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Suspense } from 'react';
+import { motion } from 'framer-motion';
 
 function ItemPage() {
   const { getParam } = useUrlQuery();
   const refrigeratorId = getParam('refrigeratorId') as string;
-  const { data: refrigerator } = useRefrigerator(refrigeratorId);
+  const { data: refrigerator, isLoading } = useRefrigerator(refrigeratorId);
   const router = useRouter();
 
   useEffect(() => {
@@ -25,7 +26,13 @@ function ItemPage() {
     <>
       <Layout.Header className="flex flex-col rounded-b-3xl bg-green-100 p-5">
         <p className="text-3xl font-bold">재료 관리</p>
-        <p className="mb-4 text-base font-semibold text-gray-500">{refrigerator?.name} 냉장고의 재료들을 관리해봐요!</p>
+        <motion.div
+          className="mb-4 text-base font-semibold text-gray-500"
+          initial={{ opacity: 0 }}
+          animate={isLoading ? { opacity: 0 } : { opacity: 1 }}
+        >
+          {refrigerator?.name} 냉장고의 재료들을 관리해봐요!
+        </motion.div>
         <ItemForm refrigeratorId={refrigeratorId} />
       </Layout.Header>
       <Layout.Content className="bg-zinc-50 px-3 py-5">

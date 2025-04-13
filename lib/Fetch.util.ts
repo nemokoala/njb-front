@@ -4,10 +4,8 @@ import { useUserStore } from '@/store/auth';
 
 const handleFetch = async <T>(endpoint: string, options: RequestInit) => {
   try {
-    // const accessToken = await getCookie('accessToken');
     const accessToken = useUserStore.getState().accessToken;
-    // if (!accessToken) await getNewAccessToken();
-    console.log('util accessToken', accessToken);
+
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
       ...options,
       headers: {
@@ -70,7 +68,7 @@ export const FetchUtil = {
 
 export const getNewAccessToken = async () => {
   try {
-    const refreshToken = await getCookie('refreshToken');
+    const refreshToken = await getCookie('rft');
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
       method: 'POST',
       headers: {
@@ -83,8 +81,8 @@ export const getNewAccessToken = async () => {
     });
 
     if (response.status !== 200) {
-      await removeCookie('refreshToken');
-      window.location.href = '/auth';
+      await removeCookie('rft');
+      window.location.href = '/auth?expired=true';
       throw new Error('새로운 액세스 토큰을 발급받는데 실패했습니다');
     }
 
@@ -102,8 +100,8 @@ export const getNewAccessToken = async () => {
 
     return true;
   } catch (error) {
-    await removeCookie('refreshToken');
-    window.location.href = '/auth';
+    await removeCookie('rft');
+    window.location.href = '/auth?expired=true';
     console.error('새로운 액세스 토큰을 발급받는데 실패했습니다', error);
     return false;
   }

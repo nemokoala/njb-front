@@ -2,12 +2,11 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const accessToken = request.cookies.get('accessToken');
-  const refreshToken = request.cookies.get('refreshToken');
+  const refreshToken = request.cookies.get('rft');
   const pathname = request.nextUrl.pathname;
 
   // 보호된 라우트에 대한 접근 시 토큰 확인
-  if (!accessToken && !refreshToken) {
+  if (!refreshToken) {
     return NextResponse.redirect(new URL('/auth', request.url));
   }
 

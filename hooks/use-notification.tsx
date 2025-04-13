@@ -20,7 +20,7 @@ const messaging = async () => {
 
 export default function useNotification() {
   const [fcmToken, setFcmToken] = useState<string | null>(null);
-  const notificationInit = useRef(false);
+
   const pathname = usePathname();
   useEffect(() => {
     console.log('useEffect');
@@ -34,11 +34,12 @@ export default function useNotification() {
           console.error('Service Worker 등록 실패:', error);
         });
     }
-    console.log('setWebNotification');
-    setWebNotification();
+
+    // setWebNotification();
   }, []);
 
   const setWebNotification = async () => {
+    console.log('setWebNotification');
     const messagingResolve = await messaging();
     if (!messagingResolve) return;
 
@@ -67,5 +68,9 @@ export default function useNotification() {
         window.open(pathname, '_blank')?.focus();
       };
     });
+  };
+
+  return {
+    setWebNotification,
   };
 }

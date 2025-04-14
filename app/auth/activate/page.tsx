@@ -15,7 +15,7 @@ function Active() {
   return (
     <Layout.Content>
       <div className="flex min-h-[60vh] flex-col items-center justify-center p-6">
-        <div className="w-full max-w-md overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
+        <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
           <div className="p-6">
             <div className="mb-6 flex justify-center">
               {!isError ? (

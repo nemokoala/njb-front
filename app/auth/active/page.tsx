@@ -3,8 +3,9 @@
 import Layout from '@/components/layout';
 import { useActive } from '@/queries/auth/queries';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function ActivePage() {
+function Active() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
@@ -119,5 +120,13 @@ export default function ActivePage() {
         </div>
       </div>
     </Layout.Content>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Active />
+    </Suspense>
   );
 }

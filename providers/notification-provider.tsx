@@ -1,14 +1,19 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import useNotification from '@/hooks/use-notification';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
 export default function NotificationProvider({ children }: { children: ReactNode }) {
   const { setWebNotification } = useNotification();
-  const notification = localStorage.getItem('notification');
-  const [open, setOpen] = useState(!notification);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const notification = localStorage.getItem('notification');
+    setOpen(!notification);
+  }, []);
+
   return (
     <>
       {children}

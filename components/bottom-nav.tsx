@@ -11,77 +11,86 @@ function BottomNavContent() {
   const pathname = usePathname();
   const { getParam } = useUrlQuery();
   const refrigeratorId = getParam('refrigeratorId') as string;
+  const hideRouter = ['/auth'];
 
   return (
-    <nav className="mx-auto h-[70px] w-full max-w-screen-md border-t bg-background bg-white">
-      <div className="relative mx-auto flex max-w-screen-md justify-around py-3">
-        <motion.div
-          layout
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="flex flex-col items-center"
-        >
-          <Link
-            href="/refrigerator"
-            className={`flex flex-col items-center ${pathname === '/refrigerator' ? 'text-primary' : 'text-black'}`}
+    <AnimatePresence>
+      <motion.div
+        className="mx-auto h-[70px] w-full max-w-screen-md border-t bg-background bg-white"
+        initial={{ opacity: 0, y: '100%' }}
+        animate={hideRouter.includes(pathname) ? { opacity: 0, y: '100%' } : { opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: '100%' }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      >
+        <div className="relative mx-auto flex max-w-screen-md justify-around py-3">
+          <motion.div
+            layout
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="flex flex-col items-center"
           >
-            <Refrigerator size={20} />
-            <span>냉장고</span>
-          </Link>
-        </motion.div>
-
-        {refrigeratorId && (
-          <>
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="flex flex-col items-center"
+            <Link
+              href="/refrigerator"
+              className={`flex flex-col items-center ${pathname === '/refrigerator' ? 'text-primary' : 'text-black'}`}
             >
-              <Link
-                href={`/item?refrigeratorId=${refrigeratorId}`}
-                className={`flex flex-col items-center ${pathname.startsWith('/item') ? 'text-primary' : 'text-black'}`}
-              >
-                <Package size={20} />
-                <span>재료</span>
-              </Link>
-            </motion.div>
+              <Refrigerator size={20} />
+              <span>냉장고</span>
+            </Link>
+          </motion.div>
 
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="flex flex-col items-center"
-            >
-              <Link
-                href={`/calendar?refrigeratorId=${refrigeratorId}`}
-                className={`flex flex-col items-center ${pathname.startsWith('/calendar') ? 'text-primary' : 'text-black'}`}
+          {refrigeratorId && (
+            <>
+              <motion.div
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                className="flex flex-col items-center"
               >
-                <Calendar size={20} />
-                <span>달력</span>
-              </Link>
-            </motion.div>
-          </>
-        )}
+                <Link
+                  href={`/item?refrigeratorId=${refrigeratorId}`}
+                  className={`flex flex-col items-center ${pathname.startsWith('/item') ? 'text-primary' : 'text-black'}`}
+                >
+                  <Package size={20} />
+                  <span>재료</span>
+                </Link>
+              </motion.div>
 
-        <motion.div
-          layout
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="flex flex-col items-center"
-        >
-          <Link
-            href="/profile"
-            className={`flex flex-col items-center ${pathname === '/profile' ? 'text-primary' : 'text-black'}`}
+              <motion.div
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                className="flex flex-col items-center"
+              >
+                <Link
+                  href={`/calendar?refrigeratorId=${refrigeratorId}`}
+                  className={`flex flex-col items-center ${pathname.startsWith('/calendar') ? 'text-primary' : 'text-black'}`}
+                >
+                  <Calendar size={20} />
+                  <span>달력</span>
+                </Link>
+              </motion.div>
+            </>
+          )}
+
+          <motion.div
+            layout
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="flex flex-col items-center"
           >
-            <User size={20} />
-            <span>프로필</span>
-          </Link>
-        </motion.div>
-      </div>
-    </nav>
+            <Link
+              href="/profile"
+              className={`flex flex-col items-center ${pathname === '/profile' ? 'text-primary' : 'text-black'}`}
+            >
+              <User size={20} />
+              <span>프로필</span>
+            </Link>
+          </motion.div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 

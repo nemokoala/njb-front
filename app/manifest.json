@@ -1,10 +1,10 @@
 {
-  "name": "Recipic",
-  "short_name": "Recipic",
-  "description": "Recipic",
+  "name": "레시픽",
+  "short_name": "레시픽",
+  "description": "레시픽",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#dcfce7",
   "theme_color": "#000000",
   "icons": [
     {

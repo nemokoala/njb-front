@@ -23,7 +23,7 @@ export default function NotificationProvider({ children }: { children: ReactNode
             <DialogTitle>알림 설정</DialogTitle>
             <DialogDescription>웹 푸시 알림을 받으시려면 알림 권한을 허용해주세요.</DialogDescription>
           </DialogHeader>
-          <div className="flex flex-col gap-4 py-4">
+          <div className="flex flex-col gap-4 pt-4">
             <Button
               onClick={() => {
                 setWebNotification();
@@ -32,6 +32,16 @@ export default function NotificationProvider({ children }: { children: ReactNode
               className="w-full"
             >
               알림 권한 허용하기
+            </Button>
+            <Button
+              onClick={() => {
+                localStorage.setItem('notification', 'false');
+                setOpen(false);
+              }}
+              className="w-full"
+              variant="outline"
+            >
+              다시 보지 않기
             </Button>
           </div>
         </DialogContent>

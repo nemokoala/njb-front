@@ -35,7 +35,9 @@ export default function useNotification() {
         });
     }
 
-    // setWebNotification();
+    if (localStorage.getItem('notification') === 'true') {
+      setWebNotification();
+    }
   }, []);
 
   const setWebNotification = async () => {
@@ -46,6 +48,7 @@ export default function useNotification() {
     const requestPermission = async () => {
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
+        localStorage.setItem('notification', 'true');
         const registration = await navigator.serviceWorker.ready;
         const token = await getToken(messagingResolve, {
           vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,

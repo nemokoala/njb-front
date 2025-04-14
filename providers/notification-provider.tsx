@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 
 export default function NotificationProvider({ children }: { children: ReactNode }) {
   const { setWebNotification } = useNotification();
-  const [open, setOpen] = useState(true);
+  const notification = localStorage.getItem('notification');
+  const [open, setOpen] = useState(!notification);
   return (
     <>
       {children}

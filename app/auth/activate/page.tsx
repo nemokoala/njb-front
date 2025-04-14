@@ -1,7 +1,7 @@
 'use client';
 
 import Layout from '@/components/layout';
-import { useActive } from '@/queries/auth/queries';
+import { useActivate } from '@/queries/auth/queries';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -9,7 +9,7 @@ function Active() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
-  const { data, isLoading, isError } = useActive(token);
+  const { data, isLoading, isError } = useActivate(token);
   console.log(data);
 
   return (

@@ -3,4 +3,6 @@ export const AUTH_CONSTANTS = {
   SIGNUP: '/auth/signup',
   REFRESH_TOKEN: '/auth/refresh-token',
   ACTIVATE: '/auth/activate',
+  USER_INFO: '/userinfo',
+  TOKEN: '/fcm/token',
 };

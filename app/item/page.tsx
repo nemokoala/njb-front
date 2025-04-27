@@ -2,7 +2,7 @@
 
 import ItemList from '@/components/item/item-list';
 import Layout from '@/components/layout';
-import ItemForm from '@/components/item/item-form';
+import ItemForm from '@/components/item/item-modal';
 import { useRefrigerator } from '@/queries/refrigerator/queries';
 import { useUrlQuery } from '@/hooks/use-url-query';
 import { useRouter } from 'next/navigation';

@@ -1,7 +1,7 @@
 'use client';
 
 import type { Item } from '@/interfaces/item.interface';
-import dayjs from 'dayjs';
+import { differenceInDays, startOfDay, parseISO } from 'date-fns';
 import { ImageOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ItemPopover from './item-popover';
@@ -13,11 +13,10 @@ export default function Item({ item }: { item: Item }) {
     return '#b40000';
   };
   const getDaysLeft = (expiredAt: string) => {
-    const today = dayjs().startOf('day');
+    const today = startOfDay(new Date());
+    const expireDate = startOfDay(parseISO(expiredAt));
 
-    const expireDate = dayjs(expiredAt).startOf('day');
-
-    const diffDays = expireDate.diff(today, 'day');
+    const diffDays = differenceInDays(expireDate, today);
 
     return diffDays;
   };

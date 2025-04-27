@@ -20,3 +20,11 @@ export const useLoginMutation = (onSuccess: (response: LoginResponse) => void, o
     onError: (error) => onError(error),
   });
 };
+
+export const useFCMTokenMutation = (onSuccess: (response: CommonResponse) => void, onError: (error: Error) => void) => {
+  return useMutation({
+    mutationFn: (data: { fcmToken: string }) => FetchUtil.put(AUTH_CONSTANTS.TOKEN, data),
+    onSuccess: (data) => onSuccess(data),
+    onError: (error) => onError(error),
+  });
+};

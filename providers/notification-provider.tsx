@@ -4,15 +4,19 @@ import { ReactNode, useState, useEffect } from 'react';
 import useNotification from '@/hooks/use-notification';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { useUserStore } from '@/store/auth';
 
 export default function NotificationProvider({ children }: { children: ReactNode }) {
   const { setWebNotification } = useNotification();
   const [open, setOpen] = useState(false);
+  const user = useUserStore();
 
   useEffect(() => {
     const notification = localStorage.getItem('notification');
-    setOpen(!notification);
-  }, []);
+    if (!notification && user.accessToken) {
+      setOpen(true);
+    }
+  }, [user.accessToken]);
 
   return (
     <>

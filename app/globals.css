@@ -14,7 +14,7 @@ body {
   font-family: var(--font-pretendard) !important;
   border-radius: 10px;
   width: 100% !important;
-  border: 1px solid var(--primary) !important;
+  border: 1px solid hsl(var(--primary)) !important;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 .react-calendar__tile {
@@ -25,7 +25,7 @@ body {
   height: 70px !important;
 }
 .react-calendar__tile--active {
-  background-color: whitesmoke !important;
+  background-color: lightgreen !important;
   border: 1px solid var(--primary) !important;
 }
 .react-calendar__tile--active > abbr {
@@ -39,6 +39,14 @@ body {
 }
 .react-calendar__month-view__days__day--neighboringMonth > abbr {
   color: gray !important;
+}
+
+.react-calendar__tile--hasActive {
+  background-color: lightgreen !important;
+}
+
+.react-calendar__tile--now {
+  background-color: rgb(255, 255, 176) !important;
 }
 
 .react-calendar__month-view__days__day {

@@ -4,31 +4,25 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import { getNewAccessToken } from '@/lib/Fetch.util';
 import { useUserStore } from '@/store/auth';
+import { useUserInfo } from '@/queries/auth/queries';
+import { useFCMTokenMutation } from '@/queries/auth/mutation';
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const accessToken = useUserStore((state) => state.accessToken);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
+
+  // const { data: userInfo } = useUserInfo({ isEnabled: !!accessToken });
 
   // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     const accessToken = await getCookie('accessToken');
-  //     const refreshToken = await getCookie('refreshToken');
-  //     console.log('accessToken', accessToken);
-  //     if (!accessToken && refreshToken) {
-  //       const newAccessToken = await getNewAccessToken();
-  //       if (!newAccessToken && pathname !== '/auth') {
-  //         router.push('/auth');
-  //       }
-  //     } else if (!accessToken && !refreshToken && pathname !== '/auth') {
-  //       router.push('/auth');
-  //     }
-  //   };
-  //   checkAuth();
-  // }, [router, pathname]);
-
-  const accessToken = useUserStore((state) => state.accessToken);
-  useEffect(() => {
-    console.log('accessToken', accessToken);
-  }, [router, accessToken]);
+  //   if (userInfo) {
+  //     // console.log('userInfo', userInfo);
+  //     // setUserInfo(userInfo.email, userInfo.nickname);
+  //   }
+  // }, [userInfo, setUserInfo]);
+  // useEffect(() => {
+  //   // console.log('accessToken', accessToken);
+  // }, [router, accessToken]);
 
   return <>{children}</>;
 }

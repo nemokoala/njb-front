@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging';
 import { firebaseApp } from '@/firebase';
 import { usePathname } from 'next/navigation';
+import { useFCMTokenMutation } from '@/queries/auth/mutation';
 
 const messaging = async () => {
   try {
@@ -20,6 +21,13 @@ const messaging = async () => {
 
 export default function useNotification() {
   const [fcmToken, setFcmToken] = useState<string | null>(null);
+
+  const { mutate: fcmTokenMutation } = useFCMTokenMutation(
+    () => {
+      console.log('fcmTokenMutation success');
+    },
+    () => {},
+  );
 
   const pathname = usePathname();
   useEffect(() => {
@@ -56,7 +64,9 @@ export default function useNotification() {
         });
         console.log('vapidKey', process.env.NEXT_PUBLIC_VAPID_KEY);
         console.log('FCM Token:', token);
-        // ✅ 여기서 백엔드로 토큰 저장 (API 요청)
+
+        //서버에 토큰 전송
+        fcmTokenMutation({ fcmToken: token });
       }
     };
 

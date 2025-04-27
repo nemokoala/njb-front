@@ -3,14 +3,13 @@
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko'; // 한국어 로케일
+import { format, parseISO, isSameDay, isSameMonth } from 'date-fns';
+import { ko } from 'date-fns/locale';
 import { useItemsList } from '@/queries/refrigerator/queries';
 import { useEffect } from 'react';
 import Item from './item/item';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useUrlQuery } from '@/hooks/use-url-query';
-dayjs.locale('ko'); // 전역 한국어 설정
 
 export function Calendars() {
   const { getParam } = useUrlQuery();
@@ -18,27 +17,15 @@ export function Calendars() {
   const { data: items, isLoading } = useItemsList(refrigeratorId);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const addedItems = items?.filter(
-    (item) => dayjs(item.registrationDate).format('YYYY-MM-DD') === dayjs(selectedDate).format('YYYY-MM-DD'),
-  );
-  const expiredItems = items?.filter(
-    (item) => dayjs(item.expirationDate).format('YYYY-MM-DD') === dayjs(selectedDate).format('YYYY-MM-DD'),
-  );
+  const addedItems = items?.filter((item) => isSameDay(parseISO(item.registrationDate), selectedDate));
+  const expiredItems = items?.filter((item) => isSameDay(parseISO(item.expirationDate), selectedDate));
 
   const showTitleContent = (date: Date, view: 'year' | 'month') => {
-    const createdItemsMonth = items?.filter(
-      (item) => dayjs(item.registrationDate).format('YYYY-MM-DD') === dayjs(date).format('YYYY-MM-DD'),
-    );
-    const expiredItemsMonth = items?.filter(
-      (item) => dayjs(item.expirationDate).format('YYYY-MM-DD') === dayjs(date).format('YYYY-MM-DD'),
-    );
+    const createdItemsMonth = items?.filter((item) => isSameDay(parseISO(item.registrationDate), date));
+    const expiredItemsMonth = items?.filter((item) => isSameDay(parseISO(item.expirationDate), date));
 
-    const createdItemsYear = items?.filter(
-      (item) => dayjs(item.registrationDate).format('YYYY-MM') === dayjs(date).format('YYYY-MM'),
-    );
-    const expiredItemsYear = items?.filter(
-      (item) => dayjs(item.expirationDate).format('YYYY-MM') === dayjs(date).format('YYYY-MM'),
-    );
+    const createdItemsYear = items?.filter((item) => isSameMonth(parseISO(item.registrationDate), date));
+    const expiredItemsYear = items?.filter((item) => isSameMonth(parseISO(item.expirationDate), date));
 
     if (view === 'month' && createdItemsMonth?.length === 0 && expiredItemsMonth?.length === 0) {
       return null;
@@ -64,14 +51,14 @@ export function Calendars() {
     }
     if (view === 'year' && createdItemsYear && createdItemsYear.length > 0) {
       elements.push(
-        <div key="created-year" className="w-full rounded-md bg-green-500 text-white">
+        <div key="created-year" className="w-full rounded-full bg-green-500 text-white">
           {createdItemsYear.length}
         </div>,
       );
     }
     if (view === 'year' && expiredItemsYear && expiredItemsYear.length > 0) {
       elements.push(
-        <div key="expired-year" className="w-full rounded-md bg-red-500 text-white">
+        <div key="expired-year" className="w-full rounded-full bg-red-500 text-white">
           {expiredItemsYear.length}
         </div>,
       );
@@ -87,13 +74,13 @@ export function Calendars() {
           locale="ko-KR"
           value={selectedDate}
           onChange={(value) => value && setSelectedDate(value as Date)}
-          formatDay={(locale, date) => dayjs(date).format('D')}
-          formatMonth={(locale, date) => dayjs(date).format('M월')}
-          formatMonthYear={(locale, date) => dayjs(date).format('YYYY년 M월')}
+          formatDay={(locale, date) => format(date, 'd')}
+          formatMonth={(locale, date) => format(date, 'M월', { locale: ko })}
+          formatMonthYear={(locale, date) => format(date, 'yyyy년 M월', { locale: ko })}
           calendarType="gregory"
           tileContent={({ date, view }) => {
             return (
-              <div className="flex w-full gap-0.5" key={dayjs(date).format('YYYY-MM-DD')}>
+              <div className="flex w-full gap-0.5" key={format(date, 'yyyy-MM-dd')}>
                 {showTitleContent(date, view as 'year' | 'month')}
               </div>
             );
@@ -103,7 +90,7 @@ export function Calendars() {
 
       <AnimatePresence>
         <motion.div
-          key={dayjs(selectedDate).format('YYYY-MM-DD')}
+          key={format(selectedDate, 'yyyy-MM-dd')}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}

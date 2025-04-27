@@ -5,7 +5,7 @@ import { Ellipsis, Pencil, Trash2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Item } from '@/interfaces/item.interface';
 import { useState } from 'react';
-import ItemModalForm from './item-form';
+import ItemModalForm from './item-modal';
 import { useUrlQuery } from '@/hooks/use-url-query';
 import { useItemDeleteMutation } from '@/queries/refrigerator/mutation';
 import { useModal } from '@/providers/modal-provider';

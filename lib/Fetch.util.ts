@@ -66,53 +66,82 @@ export const FetchUtil = {
   },
 };
 
-export const getNewAccessToken = async () => {
-  try {
-    const refreshToken = await getCookie('rft');
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        refreshToken: refreshToken?.value,
-      }),
-      credentials: 'include',
-    });
+// 토큰 갱신 중인지 추적하는 변수
+let tokenRefreshPromise: Promise<boolean> | null = null;
+// 마지막 토큰 갱신 시간 추적
+let lastTokenRefreshTime = 0;
+// 쿨타임 설정 (5초 = 5000ms)
+const TOKEN_REFRESH_COOLDOWN = 5000;
 
-    if (response.status !== 200) {
+export const getNewAccessToken = async () => {
+  const currentTime = Date.now();
+
+  // 이미 토큰 갱신 중이라면 진행 중인 Promise를 반환
+  if (tokenRefreshPromise) {
+    return tokenRefreshPromise;
+  }
+
+  // 마지막 갱신 후 쿨타임이 지나지 않았다면 이전 결과 반환 (true로 가정)
+  if (currentTime - lastTokenRefreshTime < TOKEN_REFRESH_COOLDOWN) {
+    return true;
+  }
+
+  // 새로운 토큰 갱신 Promise 생성
+  tokenRefreshPromise = (async () => {
+    try {
+      // 현재 시간을 마지막 갱신 시간으로 설정
+      lastTokenRefreshTime = currentTime;
+
+      const refreshToken = await getCookie('rft');
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          refreshToken: refreshToken?.value,
+        }),
+        credentials: 'include',
+      });
+
+      if (response.status !== 200) {
+        await removeCookie('rft');
+        window.location.href = '/auth?expired=true';
+        throw new Error('새로운 액세스 토큰을 발급받는데 실패했습니다');
+      }
+
+      // 응답에서 새 액세스 토큰 추출
+      const data = await response.json();
+      const newAccessToken = data.data.accessToken;
+      const newRefreshToken = data.data.refreshToken;
+      const newRefreshExpireTimeEpoch = data.data.refreshExpireTimeEpoch;
+
+      // Zustand 스토어에 새 토큰 저장
+      if (newAccessToken) {
+        const setAccessToken = useUserStore.getState().setAccessToken;
+        setAccessToken(newAccessToken);
+      }
+
+      if (newRefreshToken) {
+        await setCookie('rft', newRefreshToken, {
+          httpOnly: true,
+          domain: 'recipic.shop',
+          expires: new Date(newRefreshExpireTimeEpoch * 1000),
+        });
+      }
+
+      return true;
+    } catch (error) {
       await removeCookie('rft');
       window.location.href = '/auth?expired=true';
-      throw new Error('새로운 액세스 토큰을 발급받는데 실패했습니다');
+      console.error('새로운 액세스 토큰을 발급받는데 실패했습니다', error);
+      return false;
+    } finally {
+      // 작업이 완료되면 Promise 초기화
+      tokenRefreshPromise = null;
     }
+  })();
 
-    // 응답에서 새 액세스 토큰 추출
-    const data = await response.json();
-    console.log('data', data);
-    const newAccessToken = data.data.accessToken;
-    const newRefreshToken = data.data.refreshToken;
-    const newRefreshExpireTimeEpoch = data.data.refreshExpireTimeEpoch;
-
-    // Zustand 스토어에 새 토큰 저장
-    if (newAccessToken) {
-      const setAccessToken = useUserStore.getState().setAccessToken;
-      console.log('newAccessToken', newAccessToken);
-      setAccessToken(newAccessToken);
-    }
-
-    if (newRefreshToken) {
-      await setCookie('rft', newRefreshToken, {
-        httpOnly: true,
-        domain: 'recipic.shop',
-        expires: new Date(newRefreshExpireTimeEpoch * 1000),
-      });
-    }
-
-    return true;
-  } catch (error) {
-    await removeCookie('rft');
-    window.location.href = '/auth?expired=true';
-    console.error('새로운 액세스 토큰을 발급받는데 실패했습니다', error);
-    return false;
-  }
+  return tokenRefreshPromise;
 };

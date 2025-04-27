@@ -17,11 +17,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { QuantitySlider } from '@/components/common/quantity-slider';
 import { itemSchema, ItemFormData } from '@/lib/schema';
 import { useItemMutation } from '@/queries/refrigerator/mutation';
 import { useQueryClient } from '@tanstack/react-query';
@@ -53,7 +48,7 @@ export default function ItemModal({
       setOpen(false);
       if (onOpenChange) onOpenChange(false);
       form.reset();
-      queryClient.invalidateQueries({ queryKey: ['items'] });
+      queryClient.invalidateQueries({ queryKey: ['items'], exact: false });
     },
     (error) => {
       console.error('아이템 생성 중 오류 발생:', error);
@@ -65,7 +60,7 @@ export default function ItemModal({
       setOpen(false);
       if (onOpenChange) onOpenChange(false);
       form.reset();
-      queryClient.invalidateQueries({ queryKey: ['items'] });
+      queryClient.invalidateQueries({ queryKey: ['items'], exact: false });
     },
     (error) => {
       console.error('아이템 수정 중 오류 발생:', error);

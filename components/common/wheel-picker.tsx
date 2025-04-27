@@ -26,7 +26,7 @@ export const WheelPicker = ({
       if (newValue !== selected && newValue !== 0) {
         onChange(newValue);
       }
-    }, 100),
+    }, 300),
     [extendedOptions, onChange, selected],
   );
 

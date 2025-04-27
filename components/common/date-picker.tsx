@@ -1,7 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { WheelPicker } from './wheel-picker';
-import { getDaysInMonth, isValid, getYear, getMonth, getDate, isBefore, startOfDay } from 'date-fns';
+import {
+  getDaysInMonth,
+  isValid,
+  getYear,
+  getMonth,
+  getDate,
+  isBefore,
+  startOfDay,
+  setHours,
+  setSeconds,
+  setMinutes,
+} from 'date-fns';
 import { UseFormReturn } from 'react-hook-form';
 import { ItemFormData } from '@/lib/schema';
 import { toast } from 'sonner';
@@ -46,7 +57,12 @@ export default function DatePicker({
   };
 
   const handleComplete = () => {
-    const selectedDate = new Date(year, month - 1, day);
+    let selectedDate = new Date(year, month - 1, day);
+    // 시간을 정오로 설정
+    selectedDate = setHours(selectedDate, 12);
+    selectedDate = setMinutes(selectedDate, 0);
+    selectedDate = setSeconds(selectedDate, 0);
+
     const today = startOfDay(new Date());
 
     if (isBefore(selectedDate, today)) {

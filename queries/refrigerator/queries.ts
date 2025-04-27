@@ -4,6 +4,7 @@ import { Category, Refrigerator } from '@/interfaces/refrigerator.interface';
 import { FetchUtil } from '@/lib/Fetch.util';
 import { useQuery } from '@tanstack/react-query';
 import { REFRIGERATOR_CONSTANTS } from '@/constants/refrigerator.contants';
+import { S3_CONSTANTS } from '@/constants/s3.constants';
 
 export const useItemsList = (
   refrigeratorId: string,

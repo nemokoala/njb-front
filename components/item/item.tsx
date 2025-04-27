@@ -5,6 +5,7 @@ import { differenceInDays, startOfDay, parseISO } from 'date-fns';
 import { ImageOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ItemPopover from './item-popover';
+import Image from 'next/image';
 
 export default function Item({ item }: { item: Item }) {
   const getProgressColor = (progress: number) => {
@@ -36,7 +37,13 @@ export default function Item({ item }: { item: Item }) {
     <div className="flex h-[90px] items-center rounded-lg border border-gray-200 bg-white">
       <div className="h-full w-[90px] min-w-[90px] rounded-l-md bg-gray-200">
         {item.photoUrl ? (
-          <img src={item.photoUrl} alt={item.name} className="h-full w-full object-cover" />
+          <Image
+            src={item.photoUrl}
+            alt={item.name}
+            className="h-full w-full rounded-l-lg object-cover"
+            width={90}
+            height={90}
+          />
         ) : (
           <div className="flex h-full w-full items-center justify-center rounded-l-md bg-gray-200">
             <ImageOff className="h-1/2 w-1/2 text-gray-500" />

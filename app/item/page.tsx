@@ -35,7 +35,7 @@ function ItemPage() {
         </motion.div>
         <ItemForm refrigeratorId={refrigeratorId} />
       </Layout.Header>
-      <Layout.Content className="bg-zinc-50 px-3 py-5">
+      <Layout.Content className="bg-zinc-50 px-3 pb-5 pt-0">
         <ItemList />
       </Layout.Content>
     </>

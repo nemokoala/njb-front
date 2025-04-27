@@ -10,11 +10,12 @@ import { QuantitySlider } from '../common/quantity-slider';
 import { UseFormReturn } from 'react-hook-form';
 import { ItemFormData } from '@/lib/schema';
 import { Category } from '@/interfaces/refrigerator.interface';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, ImagePlus } from 'lucide-react';
 import { DialogFooter } from '../ui/dialog';
 import DatePicker from '../common/date-picker';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from '../ui/sheet';
 import { useState } from 'react';
+import ImageUploadButton from './image-upload-button';
 
 export default function ItemModalForm({
   form,
@@ -55,9 +56,8 @@ export default function ItemModalForm({
             <FormItem>
               <FormLabel>재료 사진</FormLabel>
               <FormControl>
-                <Input placeholder="사진 URL을 입력하세요 (선택사항)" {...field} value={field.value || ''} />
+                <ImageUploadButton value={field.value} onChange={(url) => field.onChange(url)} />
               </FormControl>
-              <FormDescription>재료 사진의 URL을 입력하세요. (선택사항)</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -117,8 +117,8 @@ export default function ItemModalForm({
                     </Button>
                   </FormControl>
                 </SheetTrigger>
-                <SheetContent className="w-auto p-0" side="bottom">
-                  <SheetHeader className="pt-5">
+                <SheetContent className="mx-auto w-full max-w-screen-md rounded-t-3xl p-0" side="bottom">
+                  <SheetHeader className="flex w-full items-center justify-center pt-5">
                     <SheetTitle>유통기한 선택</SheetTitle>
                   </SheetHeader>
                   <DatePicker form={form} initialDate={field.value} setIsBottomSheetOpen={setIsBottomSheetOpen} />

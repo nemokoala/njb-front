@@ -16,7 +16,7 @@ export default function ItemList() {
 
   return (
     <>
-      <div className="flex flex-row gap-2">
+      <div className="sticky top-0 z-10 flex flex-row gap-2 bg-zinc-50 py-3">
         <Select value={sortField} onValueChange={(value) => setSortField(value as typeof sortField)}>
           <SelectTrigger className="w-full bg-white">
             <SelectValue placeholder="정렬 기준 선택" />

@@ -48,7 +48,7 @@ export default function ItemModal({
       setOpen(false);
       if (onOpenChange) onOpenChange(false);
       form.reset();
-      queryClient.invalidateQueries({ queryKey: ['items'], exact: false });
+      queryClient.resetQueries({ queryKey: ['items'], exact: false });
     },
     (error) => {
       console.error('아이템 생성 중 오류 발생:', error);

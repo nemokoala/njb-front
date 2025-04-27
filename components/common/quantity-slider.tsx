@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ChevronUp, ChevronDown } from 'lucide-react';
+import { WheelPicker } from './wheel-picker';
 
 interface QuantitySliderProps {
   value: number;
@@ -12,6 +13,9 @@ interface QuantitySliderProps {
   min?: number;
   max?: number;
 }
+
+const countArray = Array.from({ length: 100 }, (_, i) => i + 1).reverse();
+console.log(countArray);
 
 export function QuantitySlider({ value, onChange, min = 1, max = 100 }: QuantitySliderProps) {
   const [isDragging, setIsDragging] = useState(false);
@@ -66,42 +70,7 @@ export function QuantitySlider({ value, onChange, min = 1, max = 100 }: Quantity
 
   return (
     <div className="flex items-center space-x-2">
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={(e) => {
-          e.preventDefault();
-          onChange(Math.max(min, value - 1));
-        }}
-      >
-        <ChevronDown className="h-4 w-4" />
-      </Button>
-      <div
-        ref={sliderRef}
-        className="flex h-12 flex-1 cursor-ns-resize touch-none items-center justify-center rounded-md bg-secondary"
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
-      >
-        <Input
-          type="number"
-          value={value}
-          onChange={(e) => {
-            e.preventDefault();
-            onChange(Number(e.target.value));
-          }}
-          className="w-16 border-none bg-transparent text-center"
-        />
-      </div>
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={(e) => {
-          e.preventDefault();
-          onChange(Math.min(max, value + 1));
-        }}
-      >
-        <ChevronUp className="h-4 w-4" />
-      </Button>
+      <WheelPicker orientation="horizontal" options={countArray} selected={value} onChange={onChange} />
     </div>
   );
 }

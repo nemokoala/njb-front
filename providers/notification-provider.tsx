@@ -12,9 +12,15 @@ export default function NotificationProvider({ children }: { children: ReactNode
   const user = useUserStore();
 
   useEffect(() => {
+    // 브라우저가 알림을 지원하는지 확인
+    const isBrowserSupported = 'Notification' in window;
+
     const notification = localStorage.getItem('notification');
-    if (!notification && user.accessToken) {
+    if (!notification && user.accessToken && isBrowserSupported) {
       setOpen(true);
+    }
+    if (notification && user.accessToken && isBrowserSupported) {
+      setWebNotification();
     }
   }, [user.accessToken]);
 

@@ -10,7 +10,6 @@ function Active() {
   const token = searchParams.get('token');
 
   const { data, isLoading, isError } = useActivate(token);
-  console.log(data);
 
   return (
     <Layout.Content>

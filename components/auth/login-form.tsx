@@ -29,10 +29,18 @@ export function LoginForm({ defaultEmail, defaultPassword, onEmailChange, onPass
       toast.success('로그인 성공', {
         description: '환영합니다!',
       });
-      setCookie('rft', userData.refreshToken, {
-        httpOnly: true,
-        domain: 'recipic.shop',
-        expires: new Date(userData.refreshExpireTimeEpoch * 1000),
+      fetch('/api/set-cookie', {
+        method: 'POST',
+        body: JSON.stringify({
+          key: 'rft',
+          value: userData.refreshToken,
+          options: {
+            expires: userData.refreshExpireTimeEpoch * 1000,
+            domain: 'recipic.shop',
+            httpOnly: true,
+            sameSite: 'Lax',
+          },
+        }),
       });
       setTimeout(() => {
         router.push('/refrigerator');

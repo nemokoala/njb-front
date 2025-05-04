@@ -6,15 +6,15 @@ import 'react-calendar/dist/Calendar.css';
 import { format, parseISO, isSameDay, isSameMonth } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useItemsList } from '@/queries/refrigerator/queries';
-import { useEffect } from 'react';
 import Item from './item/item';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useUrlQuery } from '@/hooks/use-url-query';
-
+import { useUserStore } from '@/store/auth';
 export function Calendars() {
   const { getParam } = useUrlQuery();
   const refrigeratorId = getParam('refrigeratorId') as string;
-  const { data: items, isLoading } = useItemsList(refrigeratorId);
+  const user = useUserStore();
+  const { data: items, isLoading } = useItemsList({ refrigeratorId, key: user.accessToken });
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const addedItems = items?.filter((item) => isSameDay(parseISO(item.registrationDate), selectedDate));

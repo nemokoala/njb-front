@@ -1,6 +1,7 @@
 import { getCookie, removeCookie, setCookie } from './action';
 import { CommonResponse } from '@/interfaces/response.interface';
 import { useUserStore } from '@/store/auth';
+import { useQueryClient } from '@tanstack/react-query';
 
 const handleFetch = async <T>(endpoint: string, options: RequestInit) => {
   try {
@@ -124,10 +125,21 @@ export const getNewAccessToken = async () => {
       }
 
       if (newRefreshToken) {
-        await setCookie('rft', newRefreshToken, {
-          httpOnly: true,
-          domain: 'recipic.shop',
-          expires: new Date(newRefreshExpireTimeEpoch * 1000),
+        // 개발 환경과 프로덕션 환경에 따라 다른 도메인 설정
+        const cookieDomain = process.env.NODE_ENV === 'production' ? 'recipic.shop' : undefined; // 로컬 개발 환경에서는 도메인 설정 생략
+
+        await fetch('/api/set-cookie', {
+          method: 'POST',
+          body: JSON.stringify({
+            key: 'rft',
+            value: newRefreshToken,
+            options: {
+              expires: newRefreshExpireTimeEpoch * 1000,
+              domain: cookieDomain,
+              httpOnly: true,
+              sameSite: 'Lax',
+            },
+          }),
         });
       }
 

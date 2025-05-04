@@ -60,7 +60,7 @@ export const CommonModal = () => {
 
           <Button
             variant="default"
-            className="text-primary-white h-8 w-fit min-w-[100px] rounded-3xl px-5 text-sm font-bold"
+            className="h-8 w-fit min-w-[100px] rounded-3xl px-5 text-sm font-bold text-white"
             onClick={() => {
               confirmActionRef.current?.();
               setIsOpen(false);

@@ -23,15 +23,12 @@ export default function useNotification() {
   const [fcmToken, setFcmToken] = useState<string | null>(null);
 
   const { mutate: fcmTokenMutation } = useFCMTokenMutation(
-    () => {
-      console.log('fcmTokenMutation success');
-    },
+    () => {},
     () => {},
   );
 
   const pathname = usePathname();
   useEffect(() => {
-    console.log('useEffect');
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/firebase-messaging-sw.js')
@@ -62,7 +59,6 @@ export default function useNotification() {
           vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
           serviceWorkerRegistration: registration,
         });
-        console.log('vapidKey', process.env.NEXT_PUBLIC_VAPID_KEY);
         console.log('FCM Token:', token);
 
         //서버에 토큰 전송

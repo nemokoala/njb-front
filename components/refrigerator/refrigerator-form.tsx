@@ -46,8 +46,7 @@ export default function RefrigeratorModalForm() {
   function onSubmit(values: RefrigeratorFormData) {
     if (isPending) return;
     createRefrigerator(values);
-    console.log(values);
-    // 여기에 제출 로직 추가
+
     setOpen(false); // 제출 후 모달 닫기
     form.reset(); // 폼 초기화
   }

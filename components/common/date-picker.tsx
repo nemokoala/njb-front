@@ -34,7 +34,7 @@ export default function DatePicker({
   const [year, setYear] = useState(getYear(initialDate || today));
   const [month, setMonth] = useState(getMonth(initialDate || today) + 1);
   const [day, setDay] = useState(getDate(initialDate || today));
-  console.log(initialDate);
+
   const getDaysInMonthArray = (year: number, month: number): number[] => {
     const daysCount = getDaysInMonth(new Date(year, month - 1));
     return Array.from({ length: daysCount }, (_, i) => i + 1);

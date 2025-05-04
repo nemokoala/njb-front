@@ -48,7 +48,7 @@ export default function ItemModal({
       setOpen(false);
       if (onOpenChange) onOpenChange(false);
       form.reset();
-      queryClient.resetQueries({ queryKey: ['items'], exact: false });
+      queryClient.invalidateQueries({ queryKey: ['items', refrigeratorId], exact: false });
     },
     (error) => {
       console.error('아이템 생성 중 오류 발생:', error);
@@ -60,7 +60,7 @@ export default function ItemModal({
       setOpen(false);
       if (onOpenChange) onOpenChange(false);
       form.reset();
-      queryClient.invalidateQueries({ queryKey: ['items'], exact: false });
+      queryClient.invalidateQueries({ queryKey: ['items', refrigeratorId], exact: false });
     },
     (error) => {
       console.error('아이템 수정 중 오류 발생:', error);
@@ -103,6 +103,11 @@ export default function ItemModal({
     }
   }, [open, onOpenChange]);
 
+  // 모달이 닫힐 때 실행되는 함수
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
+
   function onSubmit(values: ItemFormData) {
     if (isEditMode && editItem) {
       updateItem({ ...values, ingredientId: editItem.id, refrigeratorId, isUpdate: true });
@@ -114,20 +119,22 @@ export default function ItemModal({
   // 추가 버튼 부분은 수정 모드일 때는 렌더링하지 않음
   if (isEditMode) {
     return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-h-[90dvh] overflow-y-auto scrollbar-hide sm:max-w-[500px]">
+      <Dialog open={open} onOpenChange={handleOpenChange}>
+        <DialogContent className="max-h-[90dvh] overflow-y-auto scrollbar-hide sm:max-w-[500px]" autoFocus={false}>
           <DialogHeader>
             <DialogTitle>재료 수정</DialogTitle>
             <DialogDescription>냉장고에 있는 재료 정보를 수정해주세요.</DialogDescription>
           </DialogHeader>
-          <ItemModalForm
-            form={form}
-            categories={categories}
-            onSubmit={onSubmit}
-            isPending={isPending}
-            setOpen={setOpen}
-            mode="edit"
-          />
+          {open && (
+            <ItemModalForm
+              form={form}
+              categories={categories}
+              onSubmit={onSubmit}
+              isPending={isPending}
+              setOpen={setOpen}
+              mode="edit"
+            />
+          )}
         </DialogContent>
       </Dialog>
     );
@@ -169,7 +176,7 @@ export default function ItemModal({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent className="max-h-[90dvh] overflow-y-auto scrollbar-hide sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>재료 정보</DialogTitle>

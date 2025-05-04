@@ -15,11 +15,9 @@ interface QuantitySliderProps {
 }
 
 const countArray = Array.from({ length: 100 }, (_, i) => i + 1).reverse();
-console.log(countArray);
 
 export function QuantitySlider({ value, onChange, min = 1, max = 100 }: QuantitySliderProps) {
   const [isDragging, setIsDragging] = useState(false);
-  const sliderRef = useRef<HTMLDivElement>(null);
   const startY = useRef<number | null>(null);
   const startValue = useRef<number>(value);
 

@@ -26,7 +26,6 @@ export default function ImageUploadButton({
 
   const { mutate: uploadImage } = useS3UploadMutation(
     () => {
-      console.log('uploadImage success');
       if (imageUpload?.path) {
         setImageUrl(imageUpload.path);
         onChange(imageUpload.path);
@@ -50,7 +49,6 @@ export default function ImageUploadButton({
 
   useEffect(() => {
     if (imageUpload && !isImageUploadLoading) {
-      console.log('imageUpload', imageUpload);
       const { presignedUrl } = imageUpload;
       if (file) {
         uploadImage({ presignedUrl, file });

@@ -53,8 +53,6 @@ export function SignUpForm({ defaultEmail, defaultPassword, onEmailChange, onPas
   };
 
   async function onSubmit(data: SignUpFormData) {
-    // TODO: 여기에 회원가입 로직을 구현하세요
-    console.log(data);
     signUpMutate(data);
   }
 

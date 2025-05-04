@@ -34,7 +34,13 @@ export default function Item({ item }: { item: Item }) {
   const progress = getProgress(item.expirationDate);
 
   return (
-    <div className="flex h-[90px] items-center rounded-lg border border-gray-200 bg-white">
+    <motion.div
+      className="flex h-[90px] items-center rounded-lg border border-gray-200 bg-white"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      key={item.name}
+    >
       <div className="h-full w-[90px] min-w-[90px] rounded-l-md bg-gray-200">
         {item.photoUrl ? (
           <Image
@@ -106,6 +112,6 @@ export default function Item({ item }: { item: Item }) {
         </div>
       </div>
       <ItemPopover item={item} />
-    </div>
+    </motion.div>
   );
 }

@@ -7,9 +7,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: 3,
+        retry: 0,
         refetchOnWindowFocus: false,
-        staleTime: 0,
+        staleTime: 1000 * 60 * 5,
         throwOnError: true,
       },
       mutations: {

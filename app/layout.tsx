@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import Layout from '@/components/layout';
@@ -19,13 +19,22 @@ export const metadata: Metadata = {
   description: '재료 관리하는 서비스 입니다.',
 };
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  height: 'device-height',
+  initialScale: 1,
+  maximumScale: 1.0,
+  minimumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body className={`${pretendard.variable} w-full bg-white antialiased`}>
         <Providers>
           <AuthProvider>

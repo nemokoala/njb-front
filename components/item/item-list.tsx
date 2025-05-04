@@ -6,13 +6,15 @@ import { useItemsList } from '@/queries/refrigerator/queries';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '../ui/skeleton';
 import { useUrlQuery } from '@/hooks/use-url-query';
+import { useUserStore } from '@/store/auth';
 
 export default function ItemList() {
   const [sortField, setSortField] = useState<'name' | 'expirationDate' | 'registrationDate'>('expirationDate');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const { getParam } = useUrlQuery();
   const refrigeratorId = getParam('refrigeratorId') as string;
-  const { data: items, isLoading } = useItemsList(refrigeratorId, sortField, sortOrder);
+  const user = useUserStore();
+  const { data: items, isLoading } = useItemsList({ refrigeratorId, sortField, sortOrder, key: user.accessToken });
 
   return (
     <>

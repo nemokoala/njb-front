@@ -6,19 +6,27 @@ import { useQuery } from '@tanstack/react-query';
 import { REFRIGERATOR_CONSTANTS } from '@/constants/refrigerator.contants';
 import { S3_CONSTANTS } from '@/constants/s3.constants';
 
-export const useItemsList = (
-  refrigeratorId: string,
-  sortField: 'name' | 'expirationDate' | 'registrationDate' = 'expirationDate',
-  sortOrder: 'asc' | 'desc' = 'desc',
-) => {
+export const useItemsList = ({
+  refrigeratorId,
+  sortField = 'expirationDate',
+  sortOrder = 'desc',
+  key,
+}: {
+  refrigeratorId: string;
+  sortField?: 'name' | 'expirationDate' | 'registrationDate';
+  sortOrder?: 'asc' | 'desc';
+  key: string;
+}) => {
   return useQuery({
-    queryKey: ['items', refrigeratorId, sortField, sortOrder],
+    queryKey: ['items', refrigeratorId, sortField, sortOrder, key],
     queryFn: async () => {
       const response = (await FetchUtil.get(
         `${REFRIGERATOR_CONSTANTS.REFRIGERATORS}/${refrigeratorId}/ingredients?sortField=${sortField}&sortOrder=${sortOrder}`,
       )) as CommonResponse<Item[]>;
+
       return response.data;
     },
+    enabled: !!key,
   });
 };
 

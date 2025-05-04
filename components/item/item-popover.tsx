@@ -22,12 +22,13 @@ export default function ItemPopover({ item }: { item: Item }) {
   const { mutate: deleteItem, isPending: isDeletePending } = useItemDeleteMutation(
     () => {
       setOpen(false);
-      queryClient.invalidateQueries({ queryKey: ['refrigerator', refrigeratorId] });
+      queryClient.resetQueries({ queryKey: ['items', refrigeratorId] });
     },
     (error) => {
       console.error('아이템 삭제 중 오류 발생:', error);
     },
   );
+
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>

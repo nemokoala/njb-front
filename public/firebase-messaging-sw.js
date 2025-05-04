@@ -15,7 +15,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  // console.log('[firebase-messaging-sw.js] Received background message ', payload);
   const notificationData = payload.data;
   const notificationOptions = {
     body: notificationData.body,
@@ -30,7 +30,7 @@ messaging.onBackgroundMessage((payload) => {
 });
 
 self.addEventListener('notificationclick', function (event) {
-  console.log('Notification clicked:', event.notification);
+  // console.log('Notification clicked:', event.notification);
   event.notification.close();
 
   let redirectUrl = event.notification.data?.redirectUrl || '/';
@@ -40,7 +40,7 @@ self.addEventListener('notificationclick', function (event) {
   if (redirectUrl && !redirectUrl.startsWith('http')) {
     redirectUrl = `${baseUrl}/${redirectUrl}`;
   }
-  console.log('Redirect URL:', redirectUrl);
+  // console.log('Redirect URL:', redirectUrl);
 
   event.waitUntil(
     clients

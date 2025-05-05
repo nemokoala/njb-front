@@ -46,9 +46,11 @@ export default function Item({ item }: { item: Item }) {
           <Image
             src={item.photoUrl}
             alt={item.name}
-            className="h-full w-full rounded-l-lg object-cover"
+            className="h-[90px] w-[90px] rounded-l-lg object-cover"
             width={90}
             height={90}
+            sizes="90px"
+            priority
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center rounded-l-md bg-gray-200">

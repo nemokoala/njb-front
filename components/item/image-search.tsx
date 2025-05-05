@@ -32,12 +32,12 @@ export default function ImageSearch({
   };
 
   return (
-    <>
+    <div className="flex flex-col gap-3">
       <Button variant="outline" onClick={handleSearch}>
         <SearchIcon className="mr-2 h-4 w-4" />
         이미지 검색
       </Button>
-      <div className="flex h-[100px] gap-2 overflow-x-scroll">
+      <div className="flex max-h-[100px] gap-2 overflow-x-scroll scrollbar-hide">
         {imageList.map((image) => (
           <Button
             variant="outline"
@@ -49,6 +49,6 @@ export default function ImageSearch({
           </Button>
         ))}
       </div>
-    </>
+    </div>
   );
 }

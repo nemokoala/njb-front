@@ -1,6 +1,6 @@
-import { useRef, useEffect, useMemo, useCallback } from 'react';
-import { debounce, throttle } from 'lodash';
-import { useDeviceType } from '@/hooks/use-device-type';
+import { useRef, useEffect, useMemo } from 'react';
+import { throttle } from 'lodash';
+
 import { Button } from '../ui/button';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 export const WheelPicker = ({

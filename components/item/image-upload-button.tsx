@@ -6,6 +6,7 @@ import { ImagePlus } from 'lucide-react';
 import { useS3Upload } from '@/queries/s3/queries';
 import { useS3UploadMutation } from '@/queries/s3/mutation';
 import { useQueryClient } from '@tanstack/react-query';
+import Image from 'next/image';
 export default function ImageUploadButton({
   value,
   onChange,
@@ -64,8 +65,8 @@ export default function ImageUploadButton({
         {imageUrl ? '이미지 변경' : '이미지 업로드'}
       </Button>
       {imageUrl && (
-        <div className="mt-2">
-          <img src={imageUrl} alt="업로드된 이미지" className="max-h-32 rounded-md" />
+        <div className="relative mt-2 h-[100px] w-[100px]">
+          <Image src={imageUrl} alt="업로드된 이미지" className="max-h-32 rounded-md" fill sizes="30vw" />
         </div>
       )}
     </>

@@ -16,6 +16,7 @@ import DatePicker from '../common/date-picker';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from '../ui/sheet';
 import { useState } from 'react';
 import ImageUploadButton from './image-upload-button';
+import ImageSearch from './image-search';
 
 export default function ItemModalForm({
   form,
@@ -35,7 +36,7 @@ export default function ItemModalForm({
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-6 overflow-x-hidden">
         <FormField
           control={form.control}
           name="name"
@@ -56,7 +57,10 @@ export default function ItemModalForm({
             <FormItem>
               <FormLabel>재료 사진</FormLabel>
               <FormControl>
-                <ImageUploadButton value={field.value} onChange={(url) => field.onChange(url)} />
+                <div className="flex flex-col gap-2">
+                  <ImageUploadButton value={field.value} onChange={(url) => field.onChange(url)} />
+                  <ImageSearch form={form} value={field.value} onChange={(url) => field.onChange(url)} />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

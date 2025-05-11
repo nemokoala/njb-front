@@ -5,15 +5,27 @@ import { LoginForm } from '@/components/auth/login-form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Layout from '@/components/layout';
 import { useRouter } from 'next/navigation';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useUrlQuery } from '@/hooks/use-url-query';
-
+import { toast } from 'sonner';
+import { getCookie } from '@/lib/action';
 function AuthPage() {
   const { getParam } = useUrlQuery();
   const router = useRouter();
   const tab = getParam('tab') || 'login';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (getParam('expired')) {
+      toast.error('세션이 만료되었습니다. 다시 로그인해주세요.');
+    }
+    getCookie('rft').then((cookie) => {
+      if (cookie) {
+        router.push('/refrigerator');
+      }
+    });
+  }, []);
 
   const handleTabChange = (value: string) => {
     router.push(`/auth?tab=${value}`);
@@ -53,7 +65,7 @@ function AuthPage() {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={null}>
       <AuthPage />
     </Suspense>
   );

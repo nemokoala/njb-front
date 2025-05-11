@@ -21,7 +21,7 @@ function Refrigerator() {
 
 export default function RefrigeratorPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={null}>
       <Refrigerator />
     </Suspense>
   );

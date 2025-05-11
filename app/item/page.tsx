@@ -44,7 +44,7 @@ function ItemPage() {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={null}>
       <ItemPage />
     </Suspense>
   );

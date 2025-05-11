@@ -107,8 +107,6 @@ export const getNewAccessToken = async () => {
       });
 
       if (response.status !== 200) {
-        await removeCookie('rft');
-        window.location.href = '/auth?expired=true';
         throw new Error('새로운 액세스 토큰을 발급받는데 실패했습니다');
       }
 
@@ -146,7 +144,9 @@ export const getNewAccessToken = async () => {
       return true;
     } catch (error) {
       await removeCookie('rft');
-      window.location.href = '/auth?expired=true';
+      if (window.location.pathname !== '/auth') {
+        window.location.href = '/auth?expired=true';
+      }
       console.error('새로운 액세스 토큰을 발급받는데 실패했습니다', error);
       return false;
     } finally {

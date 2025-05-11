@@ -69,7 +69,7 @@ export const WheelPicker = ({
         variant="outline"
         size="icon"
         type="button"
-        className="w-full min-w-10"
+        className={`rounded-full ${orientation === 'vertical' ? 'w-14 min-w-4' : 'h-20 w-28'}`}
         onClick={() => containerRef.current?.scrollTo({ top: containerRef.current.scrollTop - itemHeight })}
       >
         <ChevronUp className="h-4 w-4" />
@@ -83,7 +83,7 @@ export const WheelPicker = ({
         variant="outline"
         size="icon"
         type="button"
-        className="w-full min-w-10"
+        className={`rounded-full ${orientation === 'vertical' ? 'w-14 min-w-4' : 'h-20 w-28'}`}
         onClick={() => containerRef.current?.scrollTo({ top: containerRef.current.scrollTop + itemHeight })}
       >
         <ChevronDown className="h-4 w-4" />
@@ -92,7 +92,9 @@ export const WheelPicker = ({
   }, [orientation]);
 
   return (
-    <div className={`flex ${orientation === 'vertical' ? 'flex-col' : 'flex-row gap-4'} w-full items-center`}>
+    <div
+      className={`flex ${orientation === 'vertical' ? 'flex-col gap-2' : 'mx-auto max-w-[300px] flex-row gap-4'} w-full items-center`}
+    >
       {orientation === 'vertical' ? upButton : downButton}
       <div
         ref={containerRef}

@@ -34,9 +34,10 @@ export default function ItemModalForm({
   mode: 'edit' | 'create';
 }) {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-6 overflow-x-hidden">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col space-y-6 overflow-x-hidden px-0.5">
         <FormField
           control={form.control}
           name="name"
@@ -87,7 +88,7 @@ export default function ItemModalForm({
               <FormLabel>카테고리</FormLabel>
               <Select onValueChange={(value) => field.onChange(Number(value))} value={field.value.toString()}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger onClick={(e) => e.currentTarget.blur()}>
                     <SelectValue placeholder="카테고리를 선택하세요" />
                   </SelectTrigger>
                 </FormControl>

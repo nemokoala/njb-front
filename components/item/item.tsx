@@ -46,10 +46,10 @@ export default function Item({ item }: { item: Item }) {
           <Image
             src={item.photoUrl}
             alt={item.name}
-            className="h-[90px] w-[90px] rounded-l-lg object-cover"
+            className="h-[88px] w-[89px] rounded-l-lg object-cover"
             width={90}
-            height={90}
-            sizes="90px"
+            height={88}
+            sizes="88px"
             priority
           />
         ) : (
@@ -59,11 +59,13 @@ export default function Item({ item }: { item: Item }) {
         )}
       </div>
       <div className="flex h-full flex-1 flex-col px-3 py-2">
-        <p className="h-6 text-lg font-bold">{item.name}</p>
+        <p className="h-6 text-lg font-bold">
+          {item.name} ({item.quantity}개)
+        </p>
         <div className="flex justify-between">
           {daysLeft >= 0 ? (
             <p
-              className="flex flex-col justify-end text-sm font-semibold"
+              className="text-md flex flex-col justify-end font-semibold"
               style={{ color: getProgressColor(progress) }}
             >
               D-{daysLeft}
@@ -100,15 +102,10 @@ export default function Item({ item }: { item: Item }) {
             />
           ) : (
             <motion.div
-              className="absolute h-2 w-full rounded-md bg-gray-500"
-              animate={{
-                backgroundColor: ['#ff0000', '#aa0000'],
-              }}
-              transition={{
-                duration: 1,
-                repeat: Infinity,
-                repeatType: 'reverse',
-              }}
+              className="absolute h-2 w-full origin-left rounded-md border border-red-500"
+              initial={{ opacity: 0, width: '100%' }}
+              animate={{ opacity: 1, width: '100%' }}
+              transition={{ duration: 0.7, ease: 'easeInOut' }}
             />
           )}
         </div>

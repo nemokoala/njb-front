@@ -44,7 +44,7 @@ export function LoginForm({ defaultEmail, defaultPassword, onEmailChange, onPass
       });
       setTimeout(() => {
         router.push('/refrigerator');
-      }, 500);
+      }, 100);
     },
     () => {
       toast.error('로그인 실패', {

@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
 
   // 보호된 라우트에 대한 접근 시 토큰 확인
   if (!refreshToken) {
-    return NextResponse.redirect(new URL('/auth', request.url));
+    return NextResponse.redirect(new URL('/auth?expired=true', request.url));
   }
 
   if (pathname === '/') {

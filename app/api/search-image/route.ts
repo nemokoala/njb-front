@@ -40,7 +40,7 @@ export async function GET(req: Request) {
   }
 
   try {
-    const response = await fetch(`https://openapi.naver.com/v1/search/image?query=${name}`, {
+    const response = await fetch(`https://openapi.naver.com/v1/search/image?query=${name}&display=20`, {
       headers: {
         'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
         'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET,
@@ -61,6 +61,8 @@ export async function GET(req: Request) {
       data: {
         name: name,
         imageUrl: JSON.stringify(itemList),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     });
     return NextResponse.json({ imageUrl: itemList });

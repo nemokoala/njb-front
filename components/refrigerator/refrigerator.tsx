@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRefrigeratorsList } from '@/queries/refrigerator/queries';
 import { useRouter } from 'next/navigation';
-import { Refrigerator } from 'lucide-react';
+import { ArrowUp, Refrigerator } from 'lucide-react';
 import Image from 'next/image';
 import { Skeleton } from '../ui/skeleton';
 
@@ -15,20 +15,14 @@ export function RefrigeratorGrid() {
     router.push(`/item?refrigeratorId=${id}`);
   };
 
-  // if (!isLoading && refrigerators?.length === 0)
-  //   return (
-  //     <div className="flex h-full w-full flex-col items-center justify-center">
-  //       <Card className="w-full max-w-[500px]">
-  //         <CardHeader>
-  //           <CardTitle>냉장고가 없습니다.</CardTitle>
-  //           <CardDescription>냉장고를 추가해주세요.</CardDescription>
-  //         </CardHeader>
-  //         <CardContent>
-  //           <RefrigeratorModalForm />
-  //         </CardContent>
-  //       </Card>
-  //     </div>
-  //   );
+  if (!isLoading && refrigerators?.length === 0)
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center">
+        <ArrowUp className="h-8 w-8" />
+        <p className="text-center text-2xl font-bold">냉장고가 없습니다.</p>
+        <p className="text-center text-sm text-gray-500">상단 버튼을 통해 냉장고를 추가해주세요.</p>
+      </div>
+    );
 
   return (
     <>

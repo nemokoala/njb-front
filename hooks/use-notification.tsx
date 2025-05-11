@@ -5,6 +5,7 @@ import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messagi
 import { firebaseApp } from '@/firebase';
 import { usePathname } from 'next/navigation';
 import { useFCMTokenMutation } from '@/queries/auth/mutation';
+import { useUserStore } from '@/store/auth';
 
 const messaging = async () => {
   try {
@@ -20,7 +21,7 @@ const messaging = async () => {
 };
 
 export default function useNotification() {
-  const [fcmToken, setFcmToken] = useState<string | null>(null);
+  const user = useUserStore();
 
   const { mutate: fcmTokenMutation } = useFCMTokenMutation(
     () => {},
@@ -62,7 +63,9 @@ export default function useNotification() {
         console.log('FCM Token:', token);
 
         //서버에 토큰 전송
-        fcmTokenMutation({ fcmToken: token });
+        if (user.accessToken) {
+          fcmTokenMutation({ fcmToken: token });
+        }
       }
     };
 

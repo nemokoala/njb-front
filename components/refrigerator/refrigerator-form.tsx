@@ -21,6 +21,7 @@ import { Plus } from 'lucide-react';
 import { refrigeratorSchema, RefrigeratorFormData } from '@/lib/schema';
 import { useRefrigeratorMutation } from '@/queries/refrigerator/mutation';
 import { useQueryClient } from '@tanstack/react-query';
+import ImageUploadButton from '../item/image-upload-button';
 export default function RefrigeratorModalForm() {
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
@@ -87,7 +88,11 @@ export default function RefrigeratorModalForm() {
                 <FormItem>
                   <FormLabel>냉장고 사진</FormLabel>
                   <FormControl>
-                    <Input placeholder="사진 URL을 입력하세요 (선택사항)" {...field} />
+                    <ImageUploadButton
+                      value={field.value}
+                      onChange={(url) => field.onChange(url)}
+                      type="refrigerator"
+                    />
                   </FormControl>
                   <FormDescription>냉장고 사진의 URL을 입력하세요. (선택사항)</FormDescription>
                   <FormMessage />

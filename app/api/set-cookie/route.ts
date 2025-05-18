@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       expires: options?.expires ? new Date(options.expires) : undefined,
       path: options?.path ?? '/',
       domain: options?.domain,
-      secure: options?.secure ?? process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === 'production' ? true : false,
       httpOnly: options?.httpOnly ?? true,
       sameSite: options?.sameSite ?? 'Lax',
     });

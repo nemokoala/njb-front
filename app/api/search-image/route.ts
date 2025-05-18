@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import { ImageList } from '../../../lib/generated/prisma';
 
-interface NaverResponse {
+interface NaverSearchResponse {
   lastBuildDate: string;
   total: number;
   start: number;
@@ -13,6 +13,29 @@ interface NaverResponse {
     thumbnail: string;
     sizeheight: string;
     sizewidth: string;
+  }[];
+}
+
+interface NaverShopResponse {
+  lastBuildDate: string;
+  total: number;
+  start: number;
+  display: number;
+  items: {
+    title: string;
+    link: string;
+    image: string;
+    lprice: string;
+    hprice: string;
+    mallName: string;
+    productId: string;
+    productType: string;
+    brand: string;
+    maker: string;
+    category1: string;
+    category2: string;
+    category3: string;
+    category4: string;
   }[];
 }
 
@@ -40,22 +63,21 @@ export async function GET(req: Request) {
   }
 
   try {
-    const response = await fetch(`https://openapi.naver.com/v1/search/image?query=${name}&display=20`, {
+    const response = await fetch(`https://openapi.naver.com/v1/search/shop.json?query=${name}&display=20`, {
       headers: {
         'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
         'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET,
       },
     });
-    const data: NaverResponse = await response.json();
-    // console.log('naver data', data);
+    const data: NaverShopResponse = await response.json();
+    console.log('naver data', data);
     console.log('naver 데이터 반환');
+    // return;
 
     let itemList: string[] = [];
     data.items.map((item) => {
-      itemList.push(item.link);
+      itemList.push(item.image);
     });
-
-    console.log('itemList', itemList);
 
     await prisma.imageList.create({
       data: {

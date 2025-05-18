@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get('rft');
   const pathname = request.nextUrl.pathname;
+  console.log(refreshToken);
 
   // 보호된 라우트에 대한 접근 시 토큰 확인
   if (!refreshToken) {

@@ -22,7 +22,7 @@ export function SignUpForm({ defaultEmail, defaultPassword, onEmailChange, onPas
   const { mutate: signUpMutate, isPending } = useSignUpMutation(
     () => {
       toast.success('회원가입 성공', {
-        description: '로그인 페이지로 이동합니다.',
+        description: '이메일에서 인증 메일을 확인해주세요.',
       });
       router.push('/auth?tab=login');
     },

@@ -29,6 +29,7 @@ export function LoginForm({ defaultEmail, defaultPassword, onEmailChange, onPass
       toast.success('로그인 성공', {
         description: '환영합니다!',
       });
+
       fetch('/api/set-cookie', {
         method: 'POST',
         body: JSON.stringify({
@@ -36,15 +37,14 @@ export function LoginForm({ defaultEmail, defaultPassword, onEmailChange, onPass
           value: userData.refreshToken,
           options: {
             expires: userData.refreshExpireTimeEpoch * 1000,
-            domain: 'recipic.shop',
+            domain: process.env.NODE_ENV === 'production' ? 'recipic.shop' : undefined,
             httpOnly: true,
             sameSite: 'Lax',
           },
         }),
-      });
-      setTimeout(() => {
+      }).then(() => {
         router.push('/refrigerator');
-      }, 100);
+      });
     },
     () => {
       toast.error('로그인 실패', {

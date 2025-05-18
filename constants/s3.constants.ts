@@ -1,3 +1,4 @@
 export const S3_CONSTANTS = {
-  UPLOAD: '/s3/presigned-upload',
+  UPLOAD: '/images/presigned',
+  IMAGE_LIST: (type: 'refrigerator' | 'ingredient') => `/images/?type=${type}`,
 };

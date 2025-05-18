@@ -59,7 +59,7 @@ export default function ItemModalForm({
               <FormLabel>재료 사진</FormLabel>
               <FormControl>
                 <div className="flex flex-col gap-2">
-                  <ImageUploadButton value={field.value} onChange={(url) => field.onChange(url)} />
+                  <ImageUploadButton value={field.value} onChange={(url) => field.onChange(url)} type="ingredient" />
                   <ImageSearch form={form} value={field.value} onChange={(url) => field.onChange(url)} />
                 </div>
               </FormControl>
